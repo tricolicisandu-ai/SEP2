@@ -15,7 +15,7 @@ public class ReservedState implements RoomState {
   @Override
   public void checkOut(Room room, Guest guest) {
     room.setCurrentGuest(null);
-    room.setState(new AvailableState());
+    room.setState(new InMaintenanceState());
   }
 
   @Override
