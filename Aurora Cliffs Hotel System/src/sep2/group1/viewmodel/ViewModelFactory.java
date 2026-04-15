@@ -1,0 +1,29 @@
+package sep2.group1.viewmodel;
+
+public class ViewModelFactory
+{
+  private MainPageViewModel mainPageViewModel;
+  private ReservationViewModel reservationViewModel;
+  private RoomDetailsViewModel roomDetailsViewModel;
+
+  public MainPageViewModel getMainPageViewModel()
+  {
+    if (mainPageViewModel == null)
+      mainPageViewModel = new MainPageViewModel();
+    return mainPageViewModel;
+  }
+
+  public ReservationViewModel getReservationViewModel()
+  {
+    if (reservationViewModel == null)
+      reservationViewModel = new ReservationViewModel();
+    return reservationViewModel;
+  }
+
+  public RoomDetailsViewModel getRoomDetailsViewModel()
+  {
+    if (roomDetailsViewModel == null)
+      roomDetailsViewModel = new RoomDetailsViewModel();
+    return roomDetailsViewModel;
+  }
+}

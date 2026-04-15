@@ -3,6 +3,7 @@ package sep2.group1.model;
 public class Room {
 
   private int roomNumber;
+  private String roomType;
   private int numberOfBeds;
   private double price;
   private int numberOfGuest;
@@ -10,8 +11,9 @@ public class Room {
   private RoomState state;
   private Guest currentGuest;
 
-  public Room(int roomNumber, int numberOfBeds, double price, int numberOfGuest) {
+  public Room(int roomNumber, String roomType, int numberOfBeds, double price, int numberOfGuest) {
     this.roomNumber = roomNumber;
+    this.roomType = roomType;
     this.numberOfBeds = numberOfBeds;
     this.price = price;
     this.numberOfGuest = numberOfGuest;
@@ -25,11 +27,11 @@ public class Room {
   }
 
   public void checkIn(Guest guest) {
-    state.checkIn(this, guest);
+    state.checkIn(this);
   }
 
   public void checkOut(Guest guest) {
-    state.checkOut(this, guest);
+    state.checkOut(this);
   }
 
   // getters/setters
@@ -51,6 +53,11 @@ public class Room {
 
   public int getRoomNumber() {
     return roomNumber;
+  }
+
+  public String getRoomType()
+  {
+    return roomType;
   }
 
   public int getNumberOfBeds() {

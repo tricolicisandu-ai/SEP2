@@ -4,9 +4,11 @@ public interface RoomState {
 
   void reserve(Room room, Guest guest);
 
-  void checkIn(Room room, Guest guest);
+  void checkIn(Room room);
 
-  void checkOut(Room room, Guest guest);
+  void checkOut(Room room);
+
+  void finishMaintenance(Room room);
 
   String getName();
 }

@@ -8,14 +8,19 @@ public class OccupiedState implements RoomState {
   }
 
   @Override
-  public void checkIn(Room room, Guest guest) {
-    System.out.println("Already occupied.");
+  public void checkIn(Room room) {
+    System.out.println("Already checked in.");
   }
 
   @Override
-  public void checkOut(Room room, Guest guest) {
+  public void checkOut(Room room) {
     room.setCurrentGuest(null);
     room.setState(new InMaintenanceState());
+  }
+
+  @Override
+  public void finishMaintenance(Room room) {
+    System.out.println("Still occupied.");
   }
 
   @Override

@@ -1,4 +1,4 @@
-package sep2.group1.view;
+package sep2.group1.view.MainView;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

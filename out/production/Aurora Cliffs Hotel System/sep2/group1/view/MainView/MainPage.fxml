@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" spacing="10.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" spacing="10.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sep2.group1.view.MainView.MainPageController">
     <children>
         <ImageView fitHeight="237.0" fitWidth="403.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -19,12 +19,12 @@
         </ImageView>
         <VBox alignment="CENTER" prefHeight="180.0" prefWidth="700.0" spacing="15.0">
             <children>
-                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Guest">
+                <Button fx:id="guestButton" mnemonicParsing="false" onAction="#onGuest" prefHeight="40.0" prefWidth="200.0" text="Guest">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Manager">
+                <Button fx:id="managerButton" mnemonicParsing="false" onAction="#onManager" prefHeight="40.0" prefWidth="200.0" text="Manager">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>

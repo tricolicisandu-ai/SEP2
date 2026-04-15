@@ -9,14 +9,18 @@ public class AvailableState implements RoomState {
   }
 
   @Override
-  public void checkIn(Room room, Guest guest) {
-    room.setCurrentGuest(guest);
-    room.setState(new OccupiedState());
+  public void checkIn(Room room) {
+    System.out.println("No reservation.");
   }
 
   @Override
-  public void checkOut(Room room, Guest guest) {
-    System.out.println("Room is already available.");
+  public void checkOut(Room room) {
+    System.out.println("Room is already free.");
+  }
+
+  @Override
+  public void finishMaintenance(Room room) {
+    System.out.println("Not in maintenance.");
   }
 
   @Override

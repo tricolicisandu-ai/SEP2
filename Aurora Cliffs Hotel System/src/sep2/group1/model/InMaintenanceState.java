@@ -4,16 +4,21 @@ public class InMaintenanceState implements RoomState {
 
   @Override
   public void reserve(Room room, Guest guest) {
-    System.out.println("Room is in maintenance.");
+    System.out.println("Room under maintenance.");
   }
 
   @Override
-  public void checkIn(Room room, Guest guest) {
-    System.out.println("Room is in maintenance.");
+  public void checkIn(Room room) {
+    System.out.println("Room under maintenance.");
   }
 
   @Override
-  public void checkOut(Room room, Guest guest) {
+  public void checkOut(Room room) {
+    System.out.println("Already checked out.");
+  }
+
+  @Override
+  public void finishMaintenance(Room room) {
     room.setState(new AvailableState());
   }
 
