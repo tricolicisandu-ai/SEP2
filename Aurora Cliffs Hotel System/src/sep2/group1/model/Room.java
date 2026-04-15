@@ -7,6 +7,7 @@ public class Room {
   private int numberOfBeds;
   private double price;
   private int numberOfGuest;
+  private Date date;
 
   private RoomState state;
   private Guest currentGuest;
