@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sep2.group1.view.ReservationController;
 import sep2.group1.view.ViewHandler;
 import sep2.group1.viewmodel.MainPageViewModel;
 
@@ -24,7 +23,8 @@ public class MainPageController
   private void onGuest() {
     try {
       FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/sep2/group1/view/RoomDetails.fxml")
+          getClass().getResource(
+              "/sep2/group1/view/RoomDetailsView/RoomDetails.fxml")
       );
 
       Parent root = loader.load();

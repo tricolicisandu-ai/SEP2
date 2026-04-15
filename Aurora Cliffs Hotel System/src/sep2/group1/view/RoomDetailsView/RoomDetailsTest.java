@@ -1,4 +1,4 @@
-package sep2.group1.view;
+package sep2.group1.view.RoomDetailsView;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,12 +8,12 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class ReservationTest extends Application {
+public class RoomDetailsTest extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
 
-    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Reservation.fxml")));
+    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("RoomDetails.fxml")));
 
     Scene scene = new Scene(root);
 

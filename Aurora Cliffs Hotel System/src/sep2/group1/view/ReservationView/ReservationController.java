@@ -1,8 +1,9 @@
-package sep2.group1.view;
+package sep2.group1.view.ReservationView;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import sep2.group1.model.Room;
+import sep2.group1.view.ViewHandler;
 import sep2.group1.viewmodel.ReservationViewModel;
 
 public class ReservationController {

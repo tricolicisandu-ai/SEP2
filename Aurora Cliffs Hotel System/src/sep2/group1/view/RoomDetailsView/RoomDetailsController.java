@@ -1,4 +1,4 @@
-package sep2.group1.view;
+package sep2.group1.view.RoomDetailsView;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import sep2.group1.model.Room;
+import sep2.group1.view.ReservationView.ReservationController;
+import sep2.group1.view.ViewHandler;
 import sep2.group1.viewmodel.RoomDetailsViewModel;
 
 public class RoomDetailsController {
@@ -101,7 +103,8 @@ public class RoomDetailsController {
     // ✔ otvorenie reservation okna
     try {
       FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/sep2/group1/view/Reservation.fxml")
+          getClass().getResource(
+              "/sep2/group1/view/ReservationView/Reservation.fxml")
       );
 
       Parent root = loader.load();

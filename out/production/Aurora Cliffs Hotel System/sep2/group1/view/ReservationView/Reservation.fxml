@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="500.0" prefWidth="800.0" spacing="15.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sep2.group1.view.ReservationController">
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="800.0" spacing="15.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sep2.group1.view.ReservationView.ReservationController">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-font-size: 30px; -fx-font-weight: bold;" text="Reservation" textAlignment="CENTER" VBox.vgrow="ALWAYS">
             <VBox.margin>
