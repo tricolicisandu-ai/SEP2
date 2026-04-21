@@ -1,3 +1,4 @@
+/*
 package sep2.group1.model;
 
 public class Date
@@ -43,3 +44,4 @@ public class Date
     return  year;
   }
 }
+*/

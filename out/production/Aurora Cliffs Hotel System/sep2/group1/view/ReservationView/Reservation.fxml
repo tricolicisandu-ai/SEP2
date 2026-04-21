@@ -57,12 +57,12 @@
         </HBox>
         <HBox alignment="CENTER">
             <children>
-                <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="80.0" text="Cancel" textAlignment="CENTER">
+                <Button fx:id="cancelButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="80.0" text="Cancel" textAlignment="CENTER" onAction="#onCancel">
                     <HBox.margin>
                         <Insets bottom="10.0" right="10.0" />
                     </HBox.margin>
                 </Button>
-                <Button fx:id="reserveButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="80.0" text="Reserve" textAlignment="CENTER">
+                <Button fx:id="reserveButton" onAction="#onReserve" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="80.0" text="Reserve" textAlignment="CENTER">
                     <HBox.margin>
                         <Insets bottom="10.0" />
                     </HBox.margin></Button>

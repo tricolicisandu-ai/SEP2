@@ -1,5 +1,5 @@
 package sep2.group1.model;
-
+import java.time.LocalDate;
 public class Room {
 
   private int roomNumber;
@@ -7,7 +7,11 @@ public class Room {
   private int numberOfBeds;
   private double price;
   private int numberOfGuest;
-  private Date date;
+
+
+  private LocalDate checkInDate;
+  private LocalDate checkOutDate;
+  //private Date date;
 
   private RoomState state;
   private Guest currentGuest;
@@ -72,4 +76,18 @@ public class Room {
   public int getNumberOfGuest() {
     return numberOfGuest;
   }
+
+  public LocalDate getCheckInDate() {
+    return checkInDate;
+  }
+
+  public LocalDate getCheckOutDate() {
+    return checkOutDate;
+  }
+
+  public void setReservationDates(LocalDate checkIn, LocalDate checkOut) {
+    this.checkInDate = checkIn;
+    this.checkOutDate = checkOut;
+  }
+
 }

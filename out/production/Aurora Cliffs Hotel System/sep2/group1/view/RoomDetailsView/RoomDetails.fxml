@@ -49,7 +49,7 @@
                         <Insets right="5.0" />
                     </HBox.margin>
                 </Button>
-                <Button fx:id="viewRoomsButton" alignment="CENTER" contentDisplay="CENTER" onAction="#onView" text="View Rooms" textAlignment="CENTER">
+                <Button fx:id="viewRoomsButton"  alignment="CENTER" contentDisplay="CENTER" onAction="#onViewRooms" text="View Rooms" textAlignment="CENTER">
                     <HBox.margin>
                         <Insets left="5.0" />
                     </HBox.margin>
