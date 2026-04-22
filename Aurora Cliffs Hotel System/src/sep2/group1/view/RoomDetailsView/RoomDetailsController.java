@@ -52,13 +52,42 @@ public class RoomDetailsController {
       roomsTable.refresh();
     });
 
-    // refresh pri zmene dátumov
     checkInPicker.setOnAction(e -> roomsTable.refresh());
     checkOutPicker.setOnAction(e -> roomsTable.refresh());
 
-    // ----------------------------
-    // TABLE COLUMNS (NECHÁVAM TVOJE)
-    // ----------------------------
+    checkInPicker.setDayCellFactory(picker -> new DateCell() {
+      @Override
+      public void updateItem(java.time.LocalDate date, boolean empty) {
+        super.updateItem(date, empty);
+
+        if (empty) return;
+
+        if (date.isBefore(java.time.LocalDate.now())) {
+          setDisable(true);
+          setStyle("-fx-background-color: #eeeeee;");
+        }
+      }
+    });
+    
+    checkOutPicker.setDayCellFactory(picker -> new DateCell() {
+      @Override
+      public void updateItem(java.time.LocalDate date, boolean empty) {
+        super.updateItem(date, empty);
+
+        if (empty) return;
+
+        if (checkInPicker.getValue() != null) {
+          if (!date.isAfter(checkInPicker.getValue())) {
+            setDisable(true);
+            setStyle("-fx-background-color: #eeeeee;");
+          }
+        } else {
+          if (date.isBefore(java.time.LocalDate.now())) {
+            setDisable(true);
+          }
+        }
+      }
+    });
 
     colRoomNumber.setCellValueFactory(data ->
         new javafx.beans.property.SimpleIntegerProperty(
@@ -84,9 +113,6 @@ public class RoomDetailsController {
         ).asObject()
     );
 
-    // ----------------------------
-    // 🔥 FIX: LIVE PRICE (JEDINÁ ZMENA)
-    // ----------------------------
     colPrice.setCellFactory(column -> new TableCell<Room, Double>() {
 
       @Override
@@ -121,9 +147,6 @@ public class RoomDetailsController {
 
     numberOfGuestsPicker.getItems().addAll(1, 2, 3, 4);
 
-    // ----------------------------
-    // DATA (NECHÁVAM TVOJE)
-    // ----------------------------
     allRooms.add(new Room(101, "Single", 1, 2, 1));
     allRooms.add(new Room(102, "Single", 1, 2, 1));
 
@@ -145,9 +168,6 @@ public class RoomDetailsController {
     allRooms.add(new Room(114, "Deluxe", 2, 3, 2));
   }
 
-  // ----------------------------
-  // RESET (NECHÁVAM TVOJE)
-  // ----------------------------
   @FXML
   private void onReset() {
     checkInPicker.setValue(null);
@@ -156,9 +176,6 @@ public class RoomDetailsController {
     roomsTable.setItems(FXCollections.observableArrayList());
   }
 
-  // ----------------------------
-  // VIEW ROOMS (NECHÁVAM TVOJE)
-  // ----------------------------
   @FXML
   private void onViewRooms() {
 
@@ -194,9 +211,6 @@ public class RoomDetailsController {
     }));
   }
 
-  // ----------------------------
-  // SELECT (NECHÁVAM TVOJE)
-  // ----------------------------
   @FXML
   private void onSelect() {
 

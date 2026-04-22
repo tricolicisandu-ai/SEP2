@@ -16,7 +16,7 @@
     <children>
         <HBox alignment="CENTER_LEFT" prefHeight="50.0" spacing="0">
             <children>
-                <Button mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: white;" text="Log Out" textFill="#00bcff">
+                <Button fx:id="LogOutButton" mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: white;" text="Log Out" textFill="#00bcff">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font>
@@ -39,18 +39,18 @@
         </HBox>
         <HBox prefHeight="100.0" prefWidth="200.0">
             <children>
-                <TextField promptText="Reservation Number" />
-                <TextField promptText="Room Number">
+                <TextField fx:id="reservationNumberTextField" promptText="Reservation Number" />
+                <TextField fx:id="roomNumberTextField" promptText="Room Number">
                     <HBox.margin>
                         <Insets left="10.0" />
                     </HBox.margin>
                 </TextField>
-                <TextField promptText="Email">
+                <TextField fx:id="emailTextField" promptText="Email">
                     <HBox.margin>
                         <Insets left="10.0" />
                     </HBox.margin>
                 </TextField>
-                <Button alignment="CENTER" mnemonicParsing="false" text="Search">
+                <Button fx:id="searchButton" alignment="CENTER" mnemonicParsing="false" text="Search">
                     <HBox.margin>
                         <Insets left="100.0" />
                     </HBox.margin>
@@ -63,13 +63,13 @@
 
         <TableView fx:id="roomsTable" prefHeight="398.0" prefWidth="780.0" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="colNumber" prefWidth="43.0" text="#" />
-                <TableColumn fx:id="colRoomType" prefWidth="131.5" text="Reservation Number" />
+                <TableColumn fx:id="colIndex" prefWidth="43.0" text="#" />
+                <TableColumn fx:id="colReservationNumber" prefWidth="131.5" text="Reservation Number" />
                 <TableColumn fx:id="colRoomNumber" prefWidth="110.0" text="Room Number" />
-                <TableColumn fx:id="colBeds" prefWidth="135.0" text="Email" />
-                <TableColumn fx:id="colGuests" prefWidth="88.5" text="Check - In" />
-                <TableColumn fx:id="colPrice" prefWidth="89.0" text="Check - Out" />
-                <TableColumn fx:id="colPrice1" prefWidth="125.5" text="Status" />
+                <TableColumn fx:id="colEmail" prefWidth="135.0" text="Email" />
+                <TableColumn fx:id="colCheckIn" prefWidth="88.5" text="Check - In" />
+                <TableColumn fx:id="colCheckOut" prefWidth="89.0" text="Check - Out" />
+                <TableColumn fx:id="colStatus" prefWidth="125.5" text="Status" />
             </columns>
             <VBox.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" />
@@ -81,9 +81,9 @@
 
         <HBox alignment="CENTER_RIGHT" prefHeight="50.0" spacing="10.0">
             <children>
-                <Button fx:id="selectButton1" mnemonicParsing="false" text="Cancel Reservation" />
-                <Button fx:id="selectButton2" mnemonicParsing="false" text="Check-In" />
-                <Button fx:id="selectButton11" mnemonicParsing="false" text="Check-Out" />
+                <Button fx:id="cancelReservation" mnemonicParsing="false" text="Cancel Reservation" />
+                <Button fx:id="checkInButton" mnemonicParsing="false" text="Check-In" />
+                <Button fx:id="checkOutButton" mnemonicParsing="false" text="Check-Out" />
             </children>
             <VBox.margin>
                 <Insets bottom="15.0" right="15.0" />
