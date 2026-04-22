@@ -16,7 +16,7 @@ import sep2.group1.model.ReservationManager;
 import sep2.group1.model.Room;
 import sep2.group1.model.RoomState;
 import sep2.group1.view.ViewHandler;
-import sep2.group1.viewmodel.ManagerViewViewModel;
+import sep2.group1.viewmodel.ManagerViewModel;
 
 import java.time.LocalDate;
 
@@ -180,7 +180,7 @@ public class ManagerController {
     }
   }
 
-  public void init(ViewHandler viewHandler, ManagerViewViewModel managerViewViewModel)
+  public void init(ViewHandler viewHandler, ManagerViewModel managerViewModel)
   {
   }
 }
