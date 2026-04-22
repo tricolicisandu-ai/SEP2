@@ -6,6 +6,7 @@ public class ViewModelFactory
   private ReservationViewModel reservationViewModel;
   private RoomDetailsViewModel roomDetailsViewModel;
   private ManagerViewModel managerViewModel;
+  private LoginViewModel loginViewModel;
 
   public MainPageViewModel getMainPageViewModel()
   {
@@ -33,5 +34,12 @@ public class ViewModelFactory
     if (managerViewModel == null)
       managerViewModel = new ManagerViewModel();
     return managerViewModel;
+  }
+
+  public LoginViewModel getLoginViewModel()
+  {
+    if (loginViewModel == null)
+      loginViewModel = new LoginViewModel();
+    return loginViewModel;
   }
 }

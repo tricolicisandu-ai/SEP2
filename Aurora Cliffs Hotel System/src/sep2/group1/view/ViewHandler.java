@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sep2.group1.view.LoginView.LoginViewController;
 import sep2.group1.view.MainView.MainPageController;
 import sep2.group1.view.ManagerView.ManagerController;
 import sep2.group1.view.ReservationView.ReservationController;
@@ -59,6 +60,15 @@ public class ViewHandler
 
         ManagerController controller = loader.getController();
         controller.init(this, viewModelFactory.getManagerViewModel());
+      }
+      else if (id.equals("loginView"))
+      {
+        loader = new FXMLLoader(getClass().getResource(
+            "LoginView/LoginView.fxml"));
+        root = loader.load();
+
+        LoginViewController controller = loader.getController();
+        controller.init(this, viewModelFactory.getLoginViewModel());
       }
       else
       {

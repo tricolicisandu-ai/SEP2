@@ -264,7 +264,7 @@ public class RoomDetailsController {
   private void onLogOut() {
     try {
       FXMLLoader loader = new FXMLLoader(
-          getClass().getResource("/sep2/group1/view/ManagerView/ManagerView.fxml")
+          getClass().getResource("/sep2/group1/view/MainView/MainPage.fxml")
       );
 
       Parent root = loader.load();

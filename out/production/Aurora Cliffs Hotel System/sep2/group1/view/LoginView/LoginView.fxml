@@ -65,7 +65,7 @@
                 </PasswordField>
             </children>
         </GridPane>
-        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="85.0" text="Login" onAction="#Login">
+        <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="85.0" text="Login" onAction="#onLogin">
             <VBox.margin>
                 <Insets top="80.0" />
             </VBox.margin>
