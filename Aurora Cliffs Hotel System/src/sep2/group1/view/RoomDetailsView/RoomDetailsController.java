@@ -42,7 +42,7 @@ public class RoomDetailsController {
   private ObservableList<Room> allRooms = FXCollections.observableArrayList();
 
   @FXML
-  public void initialize() {
+  public void  initialize() {
 
     checkInPicker.valueProperty().addListener((obs, oldV, newV) -> {
       roomsTable.refresh();

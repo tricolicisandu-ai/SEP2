@@ -43,6 +43,21 @@ public class MainPageController
   @FXML
   private void onManager()
   {
-    System.out.println("Manager clicked (not implemented yet)");
+    try {
+      FXMLLoader loader = new FXMLLoader(
+          getClass().getResource(
+              "/sep2/group1/view/LoginView/LoginView.fxml")
+      );
+
+      Parent root = loader.load();
+
+      Stage stage = new Stage();
+      stage.setTitle("Hotel Aurora Cliffs");
+      stage.setScene(new Scene(root));
+      stage.show();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
