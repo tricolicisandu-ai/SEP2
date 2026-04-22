@@ -5,6 +5,7 @@ public class ViewModelFactory
   private MainPageViewModel mainPageViewModel;
   private ReservationViewModel reservationViewModel;
   private RoomDetailsViewModel roomDetailsViewModel;
+  private ManagerViewModel managerViewModel;
 
   public MainPageViewModel getMainPageViewModel()
   {
@@ -25,5 +26,12 @@ public class ViewModelFactory
     if (roomDetailsViewModel == null)
       roomDetailsViewModel = new RoomDetailsViewModel();
     return roomDetailsViewModel;
+  }
+
+  public ManagerViewModel getManagerViewModel()
+  {
+    if (managerViewModel == null)
+      managerViewModel = new ManagerViewModel();
+    return managerViewModel;
   }
 }

@@ -255,12 +255,13 @@ public class RoomDetailsController {
     }
   }
 
-  public void init(ViewHandler viewHandler, RoomDetailsViewModel roomDetailsViewModel) {
+  public void init(ViewHandler viewHandler, RoomDetailsViewModel roomDetailsViewModel)
+  {
   }
 
 
   @FXML
-  private void onOpenManager() {
+  private void onLogOut() {
     try {
       FXMLLoader loader = new FXMLLoader(
           getClass().getResource("/sep2/group1/view/ManagerView/ManagerView.fxml")
@@ -269,11 +270,10 @@ public class RoomDetailsController {
       Parent root = loader.load();
 
       Stage stage = new Stage();
-      stage.setTitle("Manager View");
+      stage.setTitle("Hotel Aurora Cliffs");
       stage.setScene(new Scene(root));
       stage.show();
 
-      // zavrie aktuálne okno (RoomDetails)
       Stage current = (Stage) viewRoomsButton.getScene().getWindow();
       current.close();
 

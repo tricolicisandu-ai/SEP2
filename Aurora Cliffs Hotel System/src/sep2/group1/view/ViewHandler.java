@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sep2.group1.view.MainView.MainPageController;
+import sep2.group1.view.ManagerView.ManagerController;
 import sep2.group1.view.ReservationView.ReservationController;
 import sep2.group1.view.RoomDetailsView.RoomDetailsController;
 import sep2.group1.viewmodel.ViewModelFactory;
@@ -49,6 +50,15 @@ public class ViewHandler
 
         RoomDetailsController controller = loader.getController();
         controller.init(this, viewModelFactory.getRoomDetailsViewModel());
+      }
+      else if (id.equals("managerView"))
+      {
+        loader = new FXMLLoader(getClass().getResource(
+            "ManagerView/ManagerView.fxml"));
+        root = loader.load();
+
+        ManagerController controller = loader.getController();
+        controller.init(this, viewModelFactory.getManagerViewModel());
       }
       else
       {
