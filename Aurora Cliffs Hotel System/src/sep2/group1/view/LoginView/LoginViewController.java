@@ -36,7 +36,7 @@ public class LoginViewController
     String userName = this.userName.getText();
     String password = this.password.getText();
 
-    //For empty field validation
+    // For Empty Field Validation
     if (userName.isEmpty() || password.isEmpty())
     {
       Alert alert = new Alert(Alert.AlertType.ERROR, "Both fields must be completed.");
@@ -59,6 +59,7 @@ public class LoginViewController
       alert.setHeaderText(null);
       alert.showAndWait();
 
+      // Open Window
       try {
         FXMLLoader loader = new FXMLLoader(
             getClass().getResource("/sep2/group1/view/ManagerView/ManagerView.fxml")
@@ -74,7 +75,8 @@ public class LoginViewController
       } catch (Exception a) {
         a.printStackTrace();
       }
-      // Close Previous Window
+
+      // Close Window
       ((Stage)((Button)event.getSource()).getScene().getWindow()).close();
     }
 
