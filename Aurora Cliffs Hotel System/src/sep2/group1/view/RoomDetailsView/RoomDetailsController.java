@@ -1,8 +1,13 @@
 package sep2.group1.view.RoomDetailsView;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,7 +37,7 @@ public class RoomDetailsController {
   // Table
   @FXML private TableView<Room> roomsTable;
 
-  @FXML private TableColumn<Room, Integer> colNumber;
+  @FXML private TableColumn<Room, Integer> colIndex;
   @FXML private TableColumn<Room, Integer> colRoomNumber;
   @FXML private TableColumn<Room, String> colRoomType;
   @FXML private TableColumn<Room, Integer> colBeds;
@@ -57,21 +62,21 @@ public class RoomDetailsController {
 
     checkInPicker.setDayCellFactory(picker -> new DateCell() {
       @Override
-      public void updateItem(java.time.LocalDate date, boolean empty) {
+      public void updateItem(LocalDate date, boolean empty) {
         super.updateItem(date, empty);
 
         if (empty) return;
 
-        if (date.isBefore(java.time.LocalDate.now())) {
+        if (date.isBefore(LocalDate.now())) {
           setDisable(true);
           setStyle("-fx-background-color: #eeeeee;");
         }
       }
     });
-    
+
     checkOutPicker.setDayCellFactory(picker -> new DateCell() {
       @Override
-      public void updateItem(java.time.LocalDate date, boolean empty) {
+      public void updateItem(LocalDate date, boolean empty) {
         super.updateItem(date, empty);
 
         if (empty) return;
@@ -82,7 +87,7 @@ public class RoomDetailsController {
             setStyle("-fx-background-color: #eeeeee;");
           }
         } else {
-          if (date.isBefore(java.time.LocalDate.now())) {
+          if (date.isBefore(LocalDate.now())) {
             setDisable(true);
           }
         }
@@ -90,28 +95,31 @@ public class RoomDetailsController {
     });
 
     colRoomNumber.setCellValueFactory(data ->
-        new javafx.beans.property.SimpleIntegerProperty(
-            data.getValue().getRoomNumber()
-        ).asObject()
-    );
+        new SimpleIntegerProperty(data.getValue().getRoomNumber()).asObject());
 
     colRoomType.setCellValueFactory(data ->
-        new javafx.beans.property.SimpleStringProperty(
-            data.getValue().getRoomType()
-        )
-    );
+        new SimpleStringProperty(data.getValue().getRoomType()));
 
     colBeds.setCellValueFactory(data ->
-        new javafx.beans.property.SimpleIntegerProperty(
-            data.getValue().getNumberOfBeds()
-        ).asObject()
-    );
+        new SimpleIntegerProperty(data.getValue().getNumberOfBeds()).asObject());
 
     colGuests.setCellValueFactory(data ->
-        new javafx.beans.property.SimpleIntegerProperty(
-            data.getValue().getNumberOfGuest()
-        ).asObject()
-    );
+        new SimpleIntegerProperty(data.getValue().getNumberOfGuest()).asObject());
+
+    colIndex.setCellFactory(col -> new TableCell<>() {
+      @Override
+      protected void updateItem(Integer item, boolean empty) {
+        super.updateItem(item, empty);
+
+        if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+          setText(null);
+        } else {
+          Room currentRoom = getTableRow().getItem();
+          int originalIndex = allRooms.indexOf(currentRoom) + 1;
+          setText(String.valueOf(originalIndex));
+        }
+      }
+    });
 
     colPrice.setCellFactory(column -> new TableCell<Room, Double>() {
 
@@ -235,6 +243,7 @@ public class RoomDetailsController {
 
       ReservationController controller = loader.getController();
       controller.setRoom(selected);
+      controller.setDates(checkInPicker.getValue(), checkOutPicker.getValue());
 
       Stage stage = new Stage();
       stage.setScene(new Scene(root));
@@ -247,5 +256,29 @@ public class RoomDetailsController {
   }
 
   public void init(ViewHandler viewHandler, RoomDetailsViewModel roomDetailsViewModel) {
+  }
+
+
+  @FXML
+  private void onOpenManager() {
+    try {
+      FXMLLoader loader = new FXMLLoader(
+          getClass().getResource("/sep2/group1/view/ManagerView/ManagerView.fxml")
+      );
+
+      Parent root = loader.load();
+
+      Stage stage = new Stage();
+      stage.setTitle("Manager View");
+      stage.setScene(new Scene(root));
+      stage.show();
+
+      // zavrie aktuálne okno (RoomDetails)
+      Stage current = (Stage) viewRoomsButton.getScene().getWindow();
+      current.close();
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

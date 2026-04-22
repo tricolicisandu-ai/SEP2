@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="500.0" prefWidth="800.0" spacing="15.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="800.0" spacing="15.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sep2.group1.view.ManagerView.ManagerController">
     <children>
         <HBox alignment="CENTER_LEFT" prefHeight="50.0" spacing="0">
             <children>
-                <Button fx:id="LogOutButton" mnemonicParsing="false" prefWidth="100.0" style="-fx-background-color: white;" text="Log Out" textFill="#00bcff">
+                <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#onLogOut" prefWidth="100.0" style="-fx-background-color: white;" text="Log Out" textFill="#00bcff">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font>
@@ -81,9 +81,9 @@
 
         <HBox alignment="CENTER_RIGHT" prefHeight="50.0" spacing="10.0">
             <children>
-                <Button fx:id="cancelReservation" mnemonicParsing="false" text="Cancel Reservation" />
-                <Button fx:id="checkInButton" mnemonicParsing="false" text="Check-In" />
-                <Button fx:id="checkOutButton" mnemonicParsing="false" text="Check-Out" />
+                <Button fx:id="cancelReservation" mnemonicParsing="false" onAction="#onCancel" text="Cancel Reservation" />
+                <Button fx:id="checkInButton" mnemonicParsing="false" onAction="#onCheckIn" text="Check-In" />
+                <Button fx:id="checkOutButton" mnemonicParsing="false" onAction="#onCheckOut" text="Check-Out" />
             </children>
             <VBox.margin>
                 <Insets bottom="15.0" right="15.0" />

@@ -1,5 +1,7 @@
 package sep2.group1.model;
 import java.time.LocalDate;
+import java.util.Random;
+
 public class Room {
 
   private int roomNumber;
@@ -7,6 +9,7 @@ public class Room {
   private int numberOfBeds;
   private double price;
   private int numberOfGuest;
+  private int reservationNumber;
 
 
   private LocalDate checkInDate;
@@ -27,7 +30,10 @@ public class Room {
   }
 
   // STATE delegation
-  public void reserve(Guest guest) {
+  public void reserve(Guest guest)
+  {
+    Random random = new Random();
+    this.reservationNumber = 100000 + random.nextInt(900000);
     state.reserve(this, guest);
   }
 
@@ -90,4 +96,8 @@ public class Room {
     this.checkOutDate = checkOut;
   }
 
+  public int getReservationNumber()
+  {
+    return reservationNumber;
+  }
 }

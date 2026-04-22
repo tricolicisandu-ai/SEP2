@@ -1,12 +1,16 @@
 package sep2.group1.view.MainView;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import sep2.group1.view.ViewHandler;
 import sep2.group1.viewmodel.MainPageViewModel;
+
+import java.sql.SQLXML;
 
 public class MainPageController
 {
@@ -20,7 +24,7 @@ public class MainPageController
   }
 
   @FXML
-  private void onGuest() {
+  private void onGuest(ActionEvent event) {
     try {
       FXMLLoader loader = new FXMLLoader(
           getClass().getResource(
@@ -34,6 +38,8 @@ public class MainPageController
       stage.setScene(new Scene(root));
       stage.show();
 
+      ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
+
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -41,7 +47,7 @@ public class MainPageController
 
 
   @FXML
-  private void onManager()
+  private void onManager(ActionEvent event)
   {
     try {
       FXMLLoader loader = new FXMLLoader(
@@ -55,6 +61,8 @@ public class MainPageController
       stage.setTitle("Hotel Aurora Cliffs");
       stage.setScene(new Scene(root));
       stage.show();
+
+      ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
 
     } catch (Exception e) {
       e.printStackTrace();

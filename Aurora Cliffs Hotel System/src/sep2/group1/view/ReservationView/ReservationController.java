@@ -3,14 +3,18 @@ package sep2.group1.view.ReservationView;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import sep2.group1.model.Guest;
-import sep2.group1.model.Room;
+import sep2.group1.model.*;
 import sep2.group1.view.ViewHandler;
 import sep2.group1.viewmodel.ReservationViewModel;
+
+import java.time.LocalDate;
 
 public class ReservationController {
 
   private Room room;
+
+  private LocalDate checkInDate;
+  private LocalDate checkOutDate;
 
   @FXML private TextField textFieldFirstName;
   @FXML private TextField textFieldLastName;
@@ -22,11 +26,14 @@ public class ReservationController {
     System.out.println("Selected room: " + room.getRoomNumber());
   }
 
-  // 🔥 RESERVE BUTTON
+  public void setDates(LocalDate checkIn, LocalDate checkOut) {
+    this.checkInDate = checkIn;
+    this.checkOutDate = checkOut;
+  }
+
   @FXML
   private void onReserve() {
 
-    // 1. validácia
     if (textFieldFirstName.getText().isEmpty() ||
         textFieldLastName.getText().isEmpty() ||
         textFieldEmail.getText().isEmpty()) {
@@ -40,31 +47,41 @@ public class ReservationController {
       return;
     }
 
-    // 2. vytvor Guest
     Guest guest = new Guest(
         textFieldFirstName.getText(),
         textFieldLastName.getText(),
         textFieldEmail.getText()
     );
 
-    // 3. rezervuj izbu
+    // 🔥 ROOM STATE CHANGE
     room.reserve(guest);
 
-    System.out.println("Room reserved! State: " + room.getState().getName());
+    // 🔥 RESERVATION (SPRÁVNE DÁTUMY)
+    Reservation reservation = new Reservation(
+        (int)(Math.random() * 100000),
+        room.getRoomNumber(),
+        guest.getEmail(),
+        checkInDate,
+        checkOutDate,
+        "Reserved"
+    );
 
-    // 4. zatvor okno
+    ReservationManager.addReservation(reservation);
+
+    System.out.println("Reservation created!");
+
     Stage stage = (Stage) textFieldFirstName.getScene().getWindow();
     stage.close();
+    System.out.println("checkInDate = " + checkInDate);
+    System.out.println("checkOutDate = " + checkOutDate);
   }
 
-  // 🔹 CANCEL BUTTON
   @FXML
   private void onCancel() {
     Stage stage = (Stage) textFieldFirstName.getScene().getWindow();
     stage.close();
   }
 
-  // 🔹 ALERT helper
   private void showAlert(String msg) {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setContentText(msg);
@@ -74,7 +91,4 @@ public class ReservationController {
   public void init(ViewHandler viewHandler, ReservationViewModel reservationViewModel)
   {
   }
-
-  /*room.setReservationDates(checkInDate, checkOutDate);
-room.reserve(guest);*/
 }

@@ -61,7 +61,7 @@
 
         <TableView fx:id="roomsTable" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="colNumber" prefWidth="75.0" text="#" />
+                <TableColumn fx:id="colIndex" prefWidth="75.0" text="#" />
                 <TableColumn fx:id="colRoomNumber" prefWidth="132.0" text="Room Number" />
                 <TableColumn fx:id="colRoomType" prefWidth="167.5" text="Room Type" />
                 <TableColumn fx:id="colBeds" prefWidth="133.0" text="Number of Beds" />
@@ -81,6 +81,7 @@
                     <HBox.margin>
                         <Insets bottom="10.0" />
                     </HBox.margin></Button>
+                <Button text="Manager View" onAction="#onOpenManager"/>
             </children>
         </HBox>
     </children>
