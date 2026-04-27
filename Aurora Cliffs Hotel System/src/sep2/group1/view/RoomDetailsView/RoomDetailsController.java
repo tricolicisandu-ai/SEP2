@@ -57,6 +57,25 @@ public class RoomDetailsController {
       roomsTable.refresh();
     });
 
+    checkOutPicker.setOnMouseClicked(e -> {
+
+      if (checkInPicker.getValue() == null) {
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Select Check-In First");
+        alert.setHeaderText(null);
+        alert.setContentText("Please select check-in date first!");
+        alert.showAndWait();
+
+        checkOutPicker.hide();
+      }
+    });
+
+    checkInPicker.valueProperty().addListener((obs, oldV, newV) -> {
+      checkOutPicker.setValue(null);
+      roomsTable.refresh();
+    });
+
     checkInPicker.setOnAction(e -> roomsTable.refresh());
     checkOutPicker.setOnAction(e -> roomsTable.refresh());
 
