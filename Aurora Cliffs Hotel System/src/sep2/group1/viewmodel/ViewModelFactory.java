@@ -2,6 +2,7 @@ package sep2.group1.viewmodel;
 
 public class ViewModelFactory
 {
+  //lol
   private MainPageViewModel mainPageViewModel;
   private ReservationViewModel reservationViewModel;
   private RoomDetailsViewModel roomDetailsViewModel;
