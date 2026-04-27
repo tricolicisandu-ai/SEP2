@@ -1,5 +1,6 @@
 package sep2.group1.view.ManagerView;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -145,9 +146,30 @@ public class ManagerController {
   @FXML
   private void onCheckOut() {
     Reservation selected = roomsTable.getSelectionModel().getSelectedItem();
+
     if (selected != null) {
       selected.setStatus("In Maintenance");
       roomsTable.refresh();
+
+      Thread thread = new Thread(() -> {
+        try {
+          // Sets the timer for 3 seconds to simulate the maintenance process
+          Thread.sleep(3000);
+          Platform.runLater(() -> {
+            // Removes the reservation from the list
+            reservations.remove(selected);
+
+            System.out.println("Maintenance finished for room: " + selected.getRoomNumber());
+            roomsTable.refresh();
+          });
+
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      });
+
+      thread.setDaemon(true);
+      thread.start();
     }
   }
 

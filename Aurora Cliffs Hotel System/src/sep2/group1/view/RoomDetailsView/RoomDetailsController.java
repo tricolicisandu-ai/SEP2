@@ -57,6 +57,25 @@ public class RoomDetailsController {
       roomsTable.refresh();
     });
 
+    checkOutPicker.setOnMouseClicked(e -> {
+
+      if (checkInPicker.getValue() == null) {
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Select Check-In First");
+        alert.setHeaderText(null);
+        alert.setContentText("Please select check-in date first!");
+        alert.showAndWait();
+
+        checkOutPicker.hide();
+      }
+    });
+
+    checkInPicker.valueProperty().addListener((obs, oldV, newV) -> {
+      checkOutPicker.setValue(null);
+      roomsTable.refresh();
+    });
+
     checkInPicker.setOnAction(e -> roomsTable.refresh());
     checkOutPicker.setOnAction(e -> roomsTable.refresh());
 
@@ -104,12 +123,12 @@ public class RoomDetailsController {
         new SimpleIntegerProperty(data.getValue().getNumberOfBeds()).asObject());
 
     colGuests.setCellValueFactory(data -> {
-          Integer selectedGuests = numberOfGuestsPicker.getValue();
-          int valueToShow = (selectedGuests != null) ?
-              selectedGuests : data.getValue().getNumberOfGuest();
+      Integer selectedGuests = numberOfGuestsPicker.getValue();
+      int valueToShow = (selectedGuests != null) ?
+          selectedGuests : data.getValue().getNumberOfGuest();
 
-          return new SimpleIntegerProperty(valueToShow).asObject();
-        });
+      return new SimpleIntegerProperty(valueToShow).asObject();
+    });
 
     colIndex.setCellFactory(col -> new TableCell<>() {
       @Override
@@ -226,30 +245,32 @@ public class RoomDetailsController {
 
   @FXML
   private void onSelect() {
-
-
     Room selected = roomsTable.getSelectionModel().getSelectedItem();
+    LocalDate checkIn = checkInPicker.getValue();
+    LocalDate checkOut = checkOutPicker.getValue();
 
+    // Checks if room is selected
     if (selected == null) {
-      Alert alert = new Alert(Alert.AlertType.WARNING);
-      alert.setTitle("No selection");
-      alert.setContentText("Please select a room first!");
-      alert.showAndWait();
+      showAlert("No room selection", "Please select a room from the table first!");
+      return;
+    }
+
+    // Checks if check-in and check-out dates are selected before proceeding to reservation
+    if (checkIn == null || checkOut == null) {
+      showAlert("Missing Check-in and Check-out Dates", "Please select check-in and check-out dates first!");
       return;
     }
 
     try {
-      FXMLLoader loader = new FXMLLoader(
-          getClass().getResource(
-              "/sep2/group1/view/ReservationView/Reservation.fxml"
-          )
-      );
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/sep2/group1/view/ReservationView/Reservation.fxml"));
 
       Parent root = loader.load();
 
       ReservationController controller = loader.getController();
+
+      // Sends data (selected room and check-in/check-out dates) to the ReservationController
       controller.setRoom(selected);
-      controller.setDates(checkInPicker.getValue(), checkOutPicker.getValue());
+      controller.setDates(checkIn, checkOut);
 
       Integer guests = numberOfGuestsPicker.getValue();
       controller.setNumberOfGuests(guests != null ? guests : selected.getNumberOfGuest());
@@ -257,11 +278,21 @@ public class RoomDetailsController {
       Stage stage = new Stage();
       stage.setScene(new Scene(root));
       stage.setTitle("Reservation");
+      stage.setResizable(false);
       stage.show();
 
     } catch (Exception e) {
       e.printStackTrace();
+      showAlert("Error", "Could not open the reservation window.");
     }
+  }
+
+  private void showAlert(String title, String content) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(content);
+    alert.showAndWait();
   }
 
   public void init(ViewHandler viewHandler, RoomDetailsViewModel roomDetailsViewModel)
