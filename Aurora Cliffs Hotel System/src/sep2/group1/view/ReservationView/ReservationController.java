@@ -15,6 +15,7 @@ public class ReservationController {
 
   private LocalDate checkInDate;
   private LocalDate checkOutDate;
+  private int numberOfGuests;
 
   @FXML private TextField textFieldFirstName;
   @FXML private TextField textFieldLastName;
@@ -29,6 +30,10 @@ public class ReservationController {
   public void setDates(LocalDate checkIn, LocalDate checkOut) {
     this.checkInDate = checkIn;
     this.checkOutDate = checkOut;
+  }
+
+  public void setNumberOfGuests(int numberOfGuests) {
+    this.numberOfGuests = numberOfGuests;
   }
 
   @FXML
@@ -55,6 +60,7 @@ public class ReservationController {
 
     // 🔥 ROOM STATE CHANGE
     room.reserve(guest);
+    int resNum = room.getReservationNumber();
 
     // 🔥 RESERVATION (SPRÁVNE DÁTUMY)
     Reservation reservation = new Reservation(
@@ -63,7 +69,8 @@ public class ReservationController {
         guest.getEmail(),
         checkInDate,
         checkOutDate,
-        "Reserved"
+        "Reserved",
+        numberOfGuests
     );
 
     ReservationManager.addReservation(reservation);

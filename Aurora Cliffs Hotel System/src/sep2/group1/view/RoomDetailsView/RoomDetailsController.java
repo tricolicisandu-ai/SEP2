@@ -103,8 +103,13 @@ public class RoomDetailsController {
     colBeds.setCellValueFactory(data ->
         new SimpleIntegerProperty(data.getValue().getNumberOfBeds()).asObject());
 
-    colGuests.setCellValueFactory(data ->
-        new SimpleIntegerProperty(data.getValue().getNumberOfGuest()).asObject());
+    colGuests.setCellValueFactory(data -> {
+          Integer selectedGuests = numberOfGuestsPicker.getValue();
+          int valueToShow = (selectedGuests != null) ?
+              selectedGuests : data.getValue().getNumberOfGuest();
+
+          return new SimpleIntegerProperty(valueToShow).asObject();
+        });
 
     colIndex.setCellFactory(col -> new TableCell<>() {
       @Override
@@ -155,26 +160,25 @@ public class RoomDetailsController {
 
     numberOfGuestsPicker.getItems().addAll(1, 2, 3, 4);
 
-    allRooms.add(new Room(101, "Single", 1, 2, 1));
-    allRooms.add(new Room(102, "Single", 1, 2, 1));
+    allRooms.add(new Room(101, "Single Room", 1, 100, 1));
+    allRooms.add(new Room(102, "Single Room", 1, 100, 1));
 
-    allRooms.add(new Room(103, "Double", 2, 3, 2));
-    allRooms.add(new Room(104, "Double", 2, 3, 2));
-    allRooms.add(new Room(105, "Double", 2, 3, 2));
+    allRooms.add(new Room(103, "Double Room", 2, 150, 2));
+    allRooms.add(new Room(104, "Double Room", 2, 150, 2));
+    allRooms.add(new Room(105, "Double Room", 2, 150, 2));
 
-    allRooms.add(new Room(106, "Twin", 2, 2, 2));
-    allRooms.add(new Room(107, "Twin", 2, 2, 2));
+    allRooms.add(new Room(106, "Twin Room", 2, 180, 2));
+    allRooms.add(new Room(107, "Twin Room", 2, 180, 2));
 
-    allRooms.add(new Room(108, "Suite", 4, 4, 4));
-    allRooms.add(new Room(109, "Suite", 4, 4, 4));
-    allRooms.add(new Room(110, "Suite", 4, 5, 4));
+    allRooms.add(new Room(108, "Double-Double Room", 4, 300, 4));
+    allRooms.add(new Room(109, "Double-Double Room", 4, 300, 4));
 
-    allRooms.add(new Room(111, "Family", 3, 4, 3));
-    allRooms.add(new Room(112, "Family", 3, 5, 3));
+    allRooms.add(new Room(110, "3-Family Room", 3, 200, 3));
+    allRooms.add(new Room(111, "4-Family Room", 4, 250, 4));
+    allRooms.add(new Room(112, "4-Family Room", 4, 250, 4));
 
-    allRooms.add(new Room(113, "Deluxe", 2, 2, 2));
-    allRooms.add(new Room(114, "Deluxe", 2, 3, 2));
-  }
+    allRooms.add(new Room(113, "Deluxe Room", 3, 450, 3));
+    allRooms.add(new Room(114, "Deluxe Room", 4, 500, 4));  }
 
   @FXML
   private void onReset() {
@@ -193,7 +197,7 @@ public class RoomDetailsController {
 
     roomsTable.setItems(allRooms.filtered(room -> {
 
-      if (guests != null && room.getNumberOfBeds() < guests) {
+      if (guests != null && guests > room.getNumberOfBeds()) {
         return false;
       }
 
@@ -217,10 +221,12 @@ public class RoomDetailsController {
 
       return true;
     }));
+    roomsTable.refresh();
   }
 
   @FXML
   private void onSelect() {
+
 
     Room selected = roomsTable.getSelectionModel().getSelectedItem();
 
@@ -244,6 +250,9 @@ public class RoomDetailsController {
       ReservationController controller = loader.getController();
       controller.setRoom(selected);
       controller.setDates(checkInPicker.getValue(), checkOutPicker.getValue());
+
+      Integer guests = numberOfGuestsPicker.getValue();
+      controller.setNumberOfGuests(guests != null ? guests : selected.getNumberOfGuest());
 
       Stage stage = new Stage();
       stage.setScene(new Scene(root));

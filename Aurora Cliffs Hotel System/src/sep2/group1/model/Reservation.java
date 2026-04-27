@@ -12,7 +12,7 @@ public class Reservation {
   private String status;
 
   public Reservation(int reservationNumber, int roomNumber, String email,
-      LocalDate checkIn, LocalDate checkOut, String status) {
+      LocalDate checkIn, LocalDate checkOut, String status, int numberOfGuests) {
     this.reservationNumber = reservationNumber;
     this.roomNumber = roomNumber;
     this.email = email;

@@ -14,6 +14,6 @@ public class ReservationManager {
 
   public static void addReservation(Reservation r) {
     reservations.add(r);
-    System.out.println("GLOBAL ADD -> size: " + reservations.size());
+    System.out.println("Reservation -> size: " + reservations.size());
   }
 }

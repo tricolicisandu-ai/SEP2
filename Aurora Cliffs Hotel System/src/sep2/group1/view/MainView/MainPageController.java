@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import sep2.group1.view.ViewHandler;
 import sep2.group1.viewmodel.MainPageViewModel;
@@ -17,19 +18,21 @@ public class MainPageController
   private ViewHandler viewHandler;
   private MainPageViewModel viewModel;
 
+  @FXML private ImageView auroraImage;
+  @FXML private Button guestButton;
+  @FXML private Button managerButton;
+
   public void init(ViewHandler viewHandler, MainPageViewModel viewModel)
   {
     this.viewHandler = viewHandler;
     this.viewModel = viewModel;
   }
 
-  @FXML
-  private void onGuest(ActionEvent event) {
-    try {
-      FXMLLoader loader = new FXMLLoader(
-          getClass().getResource(
-              "/sep2/group1/view/RoomDetailsView/RoomDetails.fxml")
-      );
+  @FXML private void onGuest(ActionEvent event)
+  {
+    try
+    {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/sep2/group1/view/RoomDetailsView/RoomDetails.fxml"));
 
       Parent root = loader.load();
 
@@ -40,20 +43,19 @@ public class MainPageController
 
       ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
 
-    } catch (Exception e) {
+    }
+    catch (Exception e)
+    {
       e.printStackTrace();
     }
   }
 
-
-  @FXML
-  private void onManager(ActionEvent event)
+  @FXML private void onManager(ActionEvent event)
   {
-    try {
+    try
+    {
       FXMLLoader loader = new FXMLLoader(
-          getClass().getResource(
-              "/sep2/group1/view/LoginView/LoginView.fxml")
-      );
+          getClass().getResource("/sep2/group1/view/LoginView/LoginView.fxml"));
 
       Parent root = loader.load();
 
@@ -64,7 +66,9 @@ public class MainPageController
 
       ((Stage) ((Button) event.getSource()).getScene().getWindow()).close();
 
-    } catch (Exception e) {
+    }
+    catch (Exception e)
+    {
       e.printStackTrace();
     }
   }

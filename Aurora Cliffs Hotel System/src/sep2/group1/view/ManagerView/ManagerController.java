@@ -55,7 +55,7 @@ public class ManagerController {
 
     roomsTable.setItems(reservations);
 
-    System.out.println("Manager loaded size: " + reservations.size());
+    System.out.println("Reservations loaded size: " + reservations.size());
 
     roomsTable.refresh();
 
@@ -146,7 +146,7 @@ public class ManagerController {
   private void onCheckOut() {
     Reservation selected = roomsTable.getSelectionModel().getSelectedItem();
     if (selected != null) {
-      selected.setStatus("InMaintenance");
+      selected.setStatus("In Maintenance");
       roomsTable.refresh();
     }
   }

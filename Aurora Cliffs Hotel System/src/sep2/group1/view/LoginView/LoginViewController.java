@@ -15,29 +15,31 @@ import sep2.group1.viewmodel.LoginViewModel;
 
 public class LoginViewController
 {
-  @FXML private TextField userName;
-  @FXML private PasswordField password;
-  @FXML private Button login;
+  @FXML private TextField usernameTextField;
+  @FXML private PasswordField passwordPasswordField;
+  @FXML private Button loginButton;
+  @FXML private Button forgotLoginButton;
+  @FXML private Button notManagerButton;
 
   public void initialize()
   {
-    userName.setText("");
-    password.setText("");
+    usernameTextField.setText("");
+    passwordPasswordField.setText("");
   }
 
   public void reset()
   {
-    userName.clear();
-    password.clear();
+    usernameTextField.clear();
+    passwordPasswordField.clear();
   }
 
   @FXML private void onLogin(ActionEvent event)
   {
-    String userName = this.userName.getText();
-    String password = this.password.getText();
+    String usernameTextField = this.usernameTextField.getText();
+    String passwordPasswordField = this.passwordPasswordField.getText();
 
     // For Empty Field Validation
-    if (userName.isEmpty() || password.isEmpty())
+    if (usernameTextField.isEmpty() || passwordPasswordField.isEmpty())
     {
       Alert alert = new Alert(Alert.AlertType.ERROR, "Both fields must be completed.");
       alert.setTitle("Error");
@@ -52,7 +54,7 @@ public class LoginViewController
     Username - manager
     Password - m111
      */
-    if (userName.equals("manager") && password.equals("m111"))
+    if (usernameTextField.equals("manager") && passwordPasswordField.equals("m111"))
     {
       Alert alert = new Alert(Alert.AlertType.INFORMATION, "Login successful.");
       alert.setTitle("Success");
@@ -89,6 +91,39 @@ public class LoginViewController
       alert.showAndWait();
     }
   }
+
+  // Username and Password reminder button function
+  @FXML private void onForgotLogin(ActionEvent event)
+  {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Username: manager \nPassword: m111");
+    alert.setTitle("Login");
+    alert.setHeaderText("LOGIN");
+    alert.showAndWait();
+  }
+
+  // Not Manager button function
+  @FXML private void onNotManager(ActionEvent event)
+  {
+    try {
+      FXMLLoader loader = new FXMLLoader(
+          getClass().getResource("/sep2/group1/view/MainView/MainPage.fxml")
+      );
+
+      Parent root = loader.load();
+
+      Stage stage = new Stage();
+      stage.setTitle("Hotel Aurora Cliffs");
+      stage.setScene(new Scene(root));
+      stage.show();
+
+    } catch (Exception a) {
+      a.printStackTrace();
+    }
+
+    // Close Window
+    ((Stage)((Button)event.getSource()).getScene().getWindow()).close();
+  }
+
 
   public void init(ViewHandler viewHandler, LoginViewModel loginViewModel)
   {
