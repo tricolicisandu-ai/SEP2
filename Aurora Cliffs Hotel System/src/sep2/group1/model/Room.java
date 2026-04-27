@@ -1,4 +1,5 @@
 package sep2.group1.model;
+
 import java.time.LocalDate;
 import java.util.Random;
 
@@ -9,12 +10,11 @@ public class Room {
   private int numberOfBeds;
   private double price;
   private int numberOfGuest;
-  private int reservationNumber;
 
+  private int reservationNumber;
 
   private LocalDate checkInDate;
   private LocalDate checkOutDate;
-  //private Date date;
 
   private RoomState state;
   private Guest currentGuest;
@@ -25,15 +25,13 @@ public class Room {
     this.numberOfBeds = numberOfBeds;
     this.price = price;
     this.numberOfGuest = numberOfGuest;
-
-    this.state = new AvailableState(); // default
+    this.state = new AvailableState();
   }
 
-  // STATE delegation
-  public void reserve(Guest guest)
-  {
+  public void reserve(Guest guest) {
     Random random = new Random();
     this.reservationNumber = 100000 + random.nextInt(900000);
+    this.currentGuest = guest;
     state.reserve(this, guest);
   }
 
@@ -45,7 +43,6 @@ public class Room {
     state.checkOut(this);
   }
 
-  // getters/setters
   public RoomState getState() {
     return state;
   }
@@ -58,16 +55,11 @@ public class Room {
     return currentGuest;
   }
 
-  public void setCurrentGuest(Guest currentGuest) {
-    this.currentGuest = currentGuest;
-  }
-
   public int getRoomNumber() {
     return roomNumber;
   }
 
-  public String getRoomType()
-  {
+  public String getRoomType() {
     return roomType;
   }
 
@@ -96,8 +88,12 @@ public class Room {
     this.checkOutDate = checkOut;
   }
 
-  public int getReservationNumber()
-  {
+  public int getReservationNumber() {
     return reservationNumber;
+  }
+
+  public void setCurrentGuest(Object o)
+  {
+
   }
 }

@@ -37,7 +37,7 @@ public class ViewHandler
 
       if (id.equals("main"))
       {
-        loader = new FXMLLoader(getClass().getResource("MainPage.fxml"));
+        loader = new FXMLLoader(getClass().getResource("MainView/MainPage.fxml"));
         root = loader.load();
 
         MainPageController controller = loader.getController();

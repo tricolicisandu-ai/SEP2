@@ -104,12 +104,12 @@ public class RoomDetailsController {
         new SimpleIntegerProperty(data.getValue().getNumberOfBeds()).asObject());
 
     colGuests.setCellValueFactory(data -> {
-          Integer selectedGuests = numberOfGuestsPicker.getValue();
-          int valueToShow = (selectedGuests != null) ?
-              selectedGuests : data.getValue().getNumberOfGuest();
+      Integer selectedGuests = numberOfGuestsPicker.getValue();
+      int valueToShow = (selectedGuests != null) ?
+          selectedGuests : data.getValue().getNumberOfGuest();
 
-          return new SimpleIntegerProperty(valueToShow).asObject();
-        });
+      return new SimpleIntegerProperty(valueToShow).asObject();
+    });
 
     colIndex.setCellFactory(col -> new TableCell<>() {
       @Override
