@@ -10,17 +10,17 @@ public class AvailableState implements RoomState {
 
   @Override
   public void checkIn(Room room) {
-    System.out.println("No reservation.");
+    System.out.println("Room is not reserved.");
   }
 
   @Override
   public void checkOut(Room room) {
-    System.out.println("Room is already free.");
+    System.out.println("Room is not occupied.");
   }
 
   @Override
   public void finishMaintenance(Room room) {
-    System.out.println("Not in maintenance.");
+    System.out.println("Room is not in maintenance.");
   }
 
   @Override

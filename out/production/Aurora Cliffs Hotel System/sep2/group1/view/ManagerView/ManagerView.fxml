@@ -50,7 +50,7 @@
                         <Insets left="10.0" />
                     </HBox.margin>
                 </TextField>
-                <Button fx:id="searchButton" alignment="CENTER" mnemonicParsing="false" text="Search">
+                <Button fx:id="searchButton" onAction="#onSearch" alignment="CENTER" mnemonicParsing="false" text="Search">
                     <HBox.margin>
                         <Insets left="100.0" />
                     </HBox.margin>

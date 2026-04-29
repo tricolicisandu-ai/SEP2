@@ -83,11 +83,6 @@ public class Room {
     return checkOutDate;
   }
 
-  public void setReservationDates(LocalDate checkIn, LocalDate checkOut) {
-    this.checkInDate = checkIn;
-    this.checkOutDate = checkOut;
-  }
-
   public int getReservationNumber() {
     return reservationNumber;
   }
@@ -95,5 +90,15 @@ public class Room {
   public void setCurrentGuest(Object o)
   {
 
+  }
+
+  public void setCheckInDate(LocalDate checkInDate)
+  {
+    this.checkInDate = checkInDate;
+  }
+
+  public void setCheckOutDate(LocalDate checkOutDate)
+  {
+    this.checkOutDate = checkOutDate;
   }
 }

@@ -4,7 +4,7 @@ public class ReservedState implements RoomState {
 
   @Override
   public void reserve(Room room, Guest guest) {
-    System.out.println("Already reserved.");
+    System.out.println("Room is already reserved.");
   }
 
   @Override
@@ -14,16 +14,15 @@ public class ReservedState implements RoomState {
 
   @Override
   public void checkOut(Room room) {
-    System.out.println("Guest not checked in.");
+    System.out.println("Guest must check-in first.");
   }
 
   @Override
   public void finishMaintenance(Room room) {
-    System.out.println("Not in maintenance.");
+    System.out.println("Room is not in maintenance.");
   }
 
-  @Override
-  public String getName() {
+  @Override public String getName() {
     return "RESERVED";
   }
 }

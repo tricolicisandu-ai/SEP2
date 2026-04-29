@@ -4,12 +4,12 @@ public class OccupiedState implements RoomState {
 
   @Override
   public void reserve(Room room, Guest guest) {
-    System.out.println("Room is occupied.");
+    System.out.println("Room is already occupied.");
   }
 
   @Override
   public void checkIn(Room room) {
-    System.out.println("Already checked in.");
+    System.out.println("Already checked-in.");
   }
 
   @Override
@@ -20,7 +20,7 @@ public class OccupiedState implements RoomState {
 
   @Override
   public void finishMaintenance(Room room) {
-    System.out.println("Still occupied.");
+    System.out.println("Room is already occupied.");
   }
 
   @Override

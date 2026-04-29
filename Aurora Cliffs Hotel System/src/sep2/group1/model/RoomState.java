@@ -9,6 +9,5 @@ public interface RoomState {
   void checkOut(Room room);
 
   void finishMaintenance(Room room);
-
   String getName();
 }
