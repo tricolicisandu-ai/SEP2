@@ -2,7 +2,6 @@ package sep2.group1.view.RoomDetailsView;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -33,7 +32,7 @@ public class RoomDetailsController {
 
   @FXML
   public void initialize() {
-    // Listenery pre refresh tabuľky pri zmene hodnôt (kvôli prepočtu ceny v stĺpci)
+    // Listeners for refreshing changes (old prices
     checkInPicker.valueProperty().addListener((obs, oldV, newV) -> roomsTable.refresh());
     checkOutPicker.valueProperty().addListener((obs, oldV, newV) -> roomsTable.refresh());
 
@@ -423,38 +422,22 @@ public class RoomDetailsController {
     LocalDate checkIn = checkInPicker.getValue();
     LocalDate checkOut = checkOutPicker.getValue();
 
-    // Checks if room is selected
     if (selected == null) {
       showAlert("No room selection", "Please select a room from the table first!");
       return;
     }
 
-<<<<<<< HEAD
     if (checkIn == null || checkOut == null) {
       showAlert("Missing Dates", "Please select check-in and check-out dates first!");
-=======
-    // Checks if check-in and check-out dates are selected before proceeding to reservation
-    if (checkIn == null || checkOut == null) {
-      showAlert("Missing Check-in and Check-out Dates", "Please select check-in and check-out dates first!");
->>>>>>> f10e08a5a36a872899c75b8ab8f961595e2a9206
       return;
     }
 
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/sep2/group1/view/ReservationView/Reservation.fxml"));
-<<<<<<< HEAD
       Parent root = loader.load();
 
       ReservationController controller = loader.getController();
       controller.setParentController(this);
-=======
-
-      Parent root = loader.load();
-
-      ReservationController controller = loader.getController();
-
-      // Sends data (selected room and check-in/check-out dates) to the ReservationController
->>>>>>> f10e08a5a36a872899c75b8ab8f961595e2a9206
       controller.setRoom(selected);
       controller.setDates(checkIn, checkOut);
 
@@ -479,13 +462,6 @@ public class RoomDetailsController {
     alert.setHeaderText(null);
     alert.setContentText(content);
     alert.showAndWait();
-<<<<<<< HEAD
-=======
-  }
-
-  public void init(ViewHandler viewHandler, RoomDetailsViewModel roomDetailsViewModel)
-  {
->>>>>>> f10e08a5a36a872899c75b8ab8f961595e2a9206
   }
 
   public void init(ViewHandler viewHandler, RoomDetailsViewModel roomDetailsViewModel) {}

@@ -59,9 +59,6 @@ public class ReservationController {
       showAlert("Please fill all fields correctly!");
       return;
     }
-
-<<<<<<< HEAD
-=======
     // Fields input validation
     if (textFieldFirstName.getText().isEmpty() ||
         textFieldLastName.getText().isEmpty() ||
@@ -71,37 +68,26 @@ public class ReservationController {
     }
 
     // Email input validation
-    String email = textFieldEmail.getText();
-
     if (!email.contains("@") || !email.contains(".")) {
       showAlert("Please enter a valid email address.");
       return;
     }
 
     // GDPR box must be selected
->>>>>>> f10e08a5a36a872899c75b8ab8f961595e2a9206
     if (!checkBox.isSelected()) {
       showAlert("You must agree with GDPR!");
       return;
     }
 
-    // Vytvorenie rezervácie
-    viewModel.createReservation(
-        room,
-        first,
-        last,
-        email,
-        checkInDate,
-        checkOutDate,
-        numberOfGuests
-    );
+    // Creating reservation
+    viewModel.createReservation(room, first, last, email, checkInDate, checkOutDate, numberOfGuests);
 
-    // Refresh tabuľky v pôvodnom okne
+    // Refresh table
     if (parentController != null) {
       parentController.refreshTable();
     }
 
-    // Zatvorenie pop-up okna
+    // Closing pop-up window
     Stage stage = (Stage) textFieldFirstName.getScene().getWindow();
     stage.close();
 
