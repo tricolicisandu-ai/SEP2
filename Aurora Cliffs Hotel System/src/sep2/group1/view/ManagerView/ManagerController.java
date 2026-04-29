@@ -6,6 +6,8 @@ import sep2.group1.model.Reservation;
 import sep2.group1.view.ViewHandler;
 import sep2.group1.viewmodel.ManagerViewModel;
 
+import java.time.LocalDate;
+
 public class ManagerController {
 
   @FXML private TableView<Reservation> roomsTable;
@@ -13,6 +15,8 @@ public class ManagerController {
   @FXML private TableColumn<Reservation, Integer> colReservationNumber;
   @FXML private TableColumn<Reservation, Integer> colRoomNumber;
   @FXML private TableColumn<Reservation, String> colEmail;
+  @FXML private TableColumn<Reservation, LocalDate> colCheckIn;
+  @FXML private TableColumn<Reservation, LocalDate> colCheckOut;
   @FXML private TableColumn<Reservation, String> colStatus;
 
   @FXML private TextField reservationNumberTextField;
@@ -53,6 +57,18 @@ public class ManagerController {
     colStatus.setCellValueFactory(data ->
         new javafx.beans.property.SimpleStringProperty(
             data.getValue().getStatus()
+        )
+    );
+
+    colCheckIn.setCellValueFactory(data ->
+        new javafx.beans.property.SimpleObjectProperty<>(
+            data.getValue().getCheckIn()
+        )
+    );
+
+    colCheckOut.setCellValueFactory(data ->
+        new javafx.beans.property.SimpleObjectProperty<>(
+            data.getValue().getCheckOut()
         )
     );
 

@@ -27,21 +27,31 @@ public class RoomDetailsViewModel {
   }
 
   public ObservableList<Room> getAllRooms() {
-    return RoomManager.getRooms().filtered(room -> room.getState() instanceof AvailableState);
+    return RoomManager.getRooms();
   }
 
-  public ObservableList<Room> getFilteredRooms(Integer guests, LocalDate checkIn, LocalDate checkOut) {
+  public ObservableList<Room> getFilteredRooms(Integer guests,
+      LocalDate checkIn,
+      LocalDate checkOut) {
+
     return RoomManager.getRooms().filtered(room -> {
-      if (guests != null && guests > room.getNumberOfBeds()) return false;
-      if (!(room.getState() instanceof AvailableState)) return false;
+
+      if (guests != null && guests > room.getNumberOfBeds())
+        return false;
+
+      if (!(room.getState() instanceof AvailableState))
+        return false;
 
       if (checkIn != null && checkOut != null) {
         if (room.getCheckInDate() != null && room.getCheckOutDate() != null) {
-          boolean overlap = !checkOut.isBefore(room.getCheckInDate()) &&
-              !checkIn.isAfter(room.getCheckOutDate());
+          boolean overlap =
+              !checkOut.isBefore(room.getCheckInDate()) &&
+                  !checkIn.isAfter(room.getCheckOutDate());
+
           if (overlap) return false;
         }
       }
+
       return true;
     });
   }

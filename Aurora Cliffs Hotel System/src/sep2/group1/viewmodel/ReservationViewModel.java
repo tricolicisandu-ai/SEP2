@@ -46,4 +46,5 @@ public class ReservationViewModel
 
     ReservationManager.addReservation(reservation);
   }
+
 }
