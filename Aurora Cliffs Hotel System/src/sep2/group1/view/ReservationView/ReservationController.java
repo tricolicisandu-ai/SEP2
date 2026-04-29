@@ -60,6 +60,26 @@ public class ReservationController {
       return;
     }
 
+<<<<<<< HEAD
+=======
+    // Fields input validation
+    if (textFieldFirstName.getText().isEmpty() ||
+        textFieldLastName.getText().isEmpty() ||
+        textFieldEmail.getText().isEmpty()) {
+      showAlert("Please fill all fields!");
+      return;
+    }
+
+    // Email input validation
+    String email = textFieldEmail.getText();
+
+    if (!email.contains("@") || !email.contains(".")) {
+      showAlert("Please enter a valid email address.");
+      return;
+    }
+
+    // GDPR box must be selected
+>>>>>>> f10e08a5a36a872899c75b8ab8f961595e2a9206
     if (!checkBox.isSelected()) {
       showAlert("You must agree with GDPR!");
       return;
