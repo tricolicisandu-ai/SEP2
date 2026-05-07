@@ -18,7 +18,7 @@ public class Client
   {
     try
     {
-      socket = new Socket( "localhost", 1234);
+      socket = new Socket( "10.154.208.84", 1234);
 
       in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       out = new PrintWriter(socket.getOutputStream(), true);

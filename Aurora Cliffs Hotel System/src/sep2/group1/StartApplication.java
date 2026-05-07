@@ -9,7 +9,7 @@ import sep2.group1.server.persistence.ReservationDAO;
 
 public class StartApplication extends Application
 {
-  @Override
+ /* @Override
   public void start(Stage primaryStage) {
 
     ViewHandler viewHandler = new ViewHandler();
@@ -20,11 +20,39 @@ public class StartApplication extends Application
     ReservationManager.loadFromDB(
         new ReservationDAO().getAllReservations()
     );
+  }*/
+
+  @Override
+  public void start(Stage primaryStage) {
+
+    try {
+      // TEST SERVER/DB PRIPOJENIA
+      new ReservationDAO().getAllReservations();
+    } catch (Exception e) {
+
+      javafx.scene.control.Alert alert =
+          new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+
+      alert.setTitle("Server unavailable");
+      alert.setHeaderText("Cannot connect to server");
+      alert.setContentText("Please start the server first.");
+
+      alert.showAndWait();
+
+      javafx.application.Platform.exit();
+      return;
+    }
+
+    ViewHandler viewHandler = new ViewHandler();
+    ViewModelFactory factory = new ViewModelFactory(viewHandler);
+
+    viewHandler.setFactory(factory);
+    viewHandler.start(primaryStage);
+
+    ReservationManager.loadFromDB(
+        new ReservationDAO().getAllReservations()
+    );
   }
 
-  public static void main(String[] args)
-  {
-    launch(args);
-  }
 
 }
