@@ -13,7 +13,7 @@ public class ClientTest
     try
     {
       Socket socket = new Socket("localhost", 1234);
-      System.out.println("conected");
+      System.out.println("connected");
       PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
       BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       System.out.println("Hi server");
