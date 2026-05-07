@@ -3,6 +3,7 @@ package sep2.group1.client.view.ReservationView;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import sep2.group1.server.model.Guest;
 import sep2.group1.server.model.Room;
 import sep2.group1.client.view.RoomDetailsView.RoomDetailsController;
 import sep2.group1.client.view.ViewHandler;
@@ -16,6 +17,7 @@ public class ReservationController {
   @FXML private TextField textFieldEmail;
   @FXML private CheckBox checkBox;
 
+  private Guest guest;
   private ViewHandler viewHandler;
   private ReservationViewModel viewModel;
   private RoomDetailsController parentController;
@@ -30,7 +32,6 @@ public class ReservationController {
     this.viewModel = viewModel;
   }
 
-  // Tieto metódy volá ViewHandler pri otváraní okna
   public void setRoom(Room selectedRoom) {
     this.room = selectedRoom;
   }
@@ -54,7 +55,7 @@ public class ReservationController {
     String last = textFieldLastName.getText();
     String email = textFieldEmail.getText();
 
-    // Validácia cez ViewModel
+
     if (viewModel.isInputInvalid(first, last, email)) {
       showAlert("Please fill all fields correctly!");
       return;
@@ -79,11 +80,15 @@ public class ReservationController {
       return;
     }
 
-    // Creating reservation
-    viewModel.createReservation(room, first, last, email, checkInDate, checkOutDate, numberOfGuests);
+    // Create a reservation
+      this.guest = new Guest(first, last, email);
+      int resNum = viewModel.createReservation(room, first, last, email, checkInDate, checkOutDate, numberOfGuests);
+
+      showSuccessAlert(guest, room.getRoomNumber(), resNum);
 
     // Refresh table
-    if (parentController != null) {
+    if (parentController != null)
+    {
       parentController.refreshTable();
     }
 
@@ -93,6 +98,7 @@ public class ReservationController {
 
     System.out.println("Reservation created and window closed!");
   }
+
 
   @FXML
   private void onCancel() {
@@ -104,6 +110,21 @@ public class ReservationController {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setHeaderText(null);
     alert.setContentText(msg);
+    alert.showAndWait();
+  }
+
+  private void showSuccessAlert(Guest guest, int roomNumber, int resNum) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Reservation Confirmed");
+    alert.setHeaderText("Thank you for your reservation!");
+
+    String info = String.format("Name: " + guest.getFirstName() + " " + guest.getLastName() +
+        "\n" + "Email: " + guest.getEmail() +
+        "\n" + "Room Number: " + roomNumber +
+        "\n" + "Reservation Number: " + resNum +
+        "\n" + "Guests: " + numberOfGuests);
+
+    alert.setContentText(info);
     alert.showAndWait();
   }
 }

@@ -2,6 +2,7 @@ package sep2.group1.client.viewmodel;
 
 import sep2.group1.server.model.*;
 import sep2.group1.client.view.ViewHandler;
+import sep2.group1.server.persistence.ReservationDAO;
 
 import java.time.LocalDate;
 
@@ -21,7 +22,7 @@ public class ReservationViewModel
     return accepted;
   }
 
-  public void createReservation(Room room,
+  public int createReservation(Room room,
       String firstName,
       String lastName,
       String email,
@@ -34,17 +35,21 @@ public class ReservationViewModel
     // reserve room
     room.reserve(guest);
 
-    Reservation reservation = new Reservation(
-        (int)(Math.random() * 100000),
+    //ReservationManager.addReservation(reservation);
+    ReservationDAO dao = new ReservationDAO();
+    int databaseId = dao.createReservation(new Reservation(
+        0,
         room.getRoomNumber(),
         guest.getEmail(),
         checkIn,
         checkOut,
         "Reserved",
-        guests
-    );
+        guests,
+        firstName,
+        lastName
+    ));
+    ReservationManager.refreshReservations();
 
-    ReservationManager.addReservation(reservation);
+    return databaseId;
   }
-
 }

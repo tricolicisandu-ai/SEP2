@@ -1,4 +1,4 @@
-package sep2.group1.server.model;
+/*package sep2.group1.server.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +27,29 @@ public class RoomManager {
 
     rooms.add(new Room(113, "Deluxe Room", 3, 450, 3));
     rooms.add(new Room(114, "Deluxe Room", 4, 500, 4));
+  }
+
+  public static ObservableList<Room> getRooms() {
+    return rooms;
+  }
+}*/
+
+package sep2.group1.server.model;
+
+import javafx.collections.ObservableList;
+import sep2.group1.server.persistence.RoomDAO;
+
+public class RoomManager {
+
+  private static ObservableList<Room> rooms;
+
+  static {
+    loadRoomsFromDB();
+  }
+
+  public static void loadRoomsFromDB() {
+    RoomDAO dao = new RoomDAO();
+    rooms = dao.getAllRooms();
   }
 
   public static ObservableList<Room> getRooms() {

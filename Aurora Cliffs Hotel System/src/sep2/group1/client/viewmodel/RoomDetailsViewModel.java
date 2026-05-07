@@ -5,6 +5,8 @@ import sep2.group1.server.model.Room;
 import sep2.group1.server.model.RoomManager;
 import sep2.group1.server.model.AvailableState;
 import sep2.group1.client.view.ViewHandler;
+import sep2.group1.server.model.Reservation;
+import sep2.group1.server.model.ReservationManager;
 
 import java.time.LocalDate;
 
@@ -30,7 +32,7 @@ public class RoomDetailsViewModel {
     return RoomManager.getRooms();
   }
 
-  public ObservableList<Room> getFilteredRooms(Integer guests,
+  /*public ObservableList<Room> getFilteredRooms(Integer guests,
       LocalDate checkIn,
       LocalDate checkOut) {
 
@@ -49,6 +51,36 @@ public class RoomDetailsViewModel {
                   !checkIn.isAfter(room.getCheckOutDate());
 
           if (overlap) return false;
+        }
+      }
+
+      return true;
+    });
+  }*/
+
+  public ObservableList<Room> getFilteredRooms(Integer guests,
+      LocalDate checkIn,
+      LocalDate checkOut) {
+    System.out.println(ReservationManager.getReservations().size());
+    return RoomManager.getRooms().filtered(room -> {
+
+      if (guests != null && guests > room.getNumberOfBeds())
+        return false;
+
+      for (Reservation r : ReservationManager.getReservations()) {
+
+        if (r.getRoomNumber() == room.getRoomNumber()) {
+
+          if (checkIn == null || checkOut == null) {
+            return false;
+          }
+
+          boolean overlap =
+              !checkOut.isBefore(r.getCheckIn()) &&
+                  !checkIn.isAfter(r.getCheckOut());
+
+          if (overlap)
+            return false;
         }
       }
 

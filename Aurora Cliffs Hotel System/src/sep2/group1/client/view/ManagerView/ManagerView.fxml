@@ -63,7 +63,6 @@
 
         <TableView fx:id="roomsTable" prefHeight="398.0" prefWidth="780.0" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="colIndex" prefWidth="43.0" text="#" />
                 <TableColumn fx:id="colReservationNumber" prefWidth="131.5" text="Reservation Number" />
                 <TableColumn fx:id="colRoomNumber" prefWidth="110.0" text="Room Number" />
                 <TableColumn fx:id="colEmail" prefWidth="135.0" text="Email" />

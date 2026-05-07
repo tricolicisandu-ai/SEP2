@@ -6,6 +6,8 @@ public class Reservation {
 
   private int reservationNumber;
   private int roomNumber;
+  private String firstName;
+  private String lastName;
   private String email;
   private LocalDate checkIn;
   private LocalDate checkOut;
@@ -14,10 +16,12 @@ public class Reservation {
 
   public Reservation(int reservationNumber, int roomNumber, String email,
       LocalDate checkIn, LocalDate checkOut,
-      String status, int numberOfGuests) {
+      String status, int numberOfGuests, String lastName, String firstName) {
 
     this.reservationNumber = reservationNumber;
     this.roomNumber = roomNumber;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.email = email;
     this.checkIn = checkIn;
     this.checkOut = checkOut;
@@ -56,4 +60,15 @@ public class Reservation {
   public int getNumberOfGuests() {
     return numberOfGuests;
   }
+
+  public String getFirstName()
+  {
+    return firstName;
+  }
+
+  public String getLastName()
+  {
+    return lastName;
+  }
+
 }

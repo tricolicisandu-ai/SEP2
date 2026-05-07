@@ -6,17 +6,28 @@ import javafx.collections.transformation.FilteredList;
 import sep2.group1.server.model.Reservation;
 import sep2.group1.server.model.ReservationManager;
 import sep2.group1.client.view.ViewHandler;
+import sep2.group1.server.persistence.ReservationDAO;
 
 public class ManagerViewModel {
 
   private ViewHandler viewHandler;
 
+  /*private ObservableList<Reservation> reservations;
+  private FilteredList<Reservation> filteredReservations;
+
+  public ManagerViewModel(ViewHandler viewHandler) {
+    this.viewHandler = viewHandler;
+   this.reservations = ReservationManager.getReservations();
+    this.filteredReservations = new FilteredList<>(reservations, p -> true);
+  }*/
+  private ReservationDAO reservationDAO = new ReservationDAO();
   private ObservableList<Reservation> reservations;
   private FilteredList<Reservation> filteredReservations;
 
   public ManagerViewModel(ViewHandler viewHandler) {
     this.viewHandler = viewHandler;
-    this.reservations = ReservationManager.getReservations();
+
+    this.reservations = reservationDAO.getAllReservations();
     this.filteredReservations = new FilteredList<>(reservations, p -> true);
   }
 
@@ -35,18 +46,29 @@ public class ManagerViewModel {
 
   // CHECK-OUT
   public void checkOut(Reservation r) {
-    // Check-out allowed only after "Occupied" status
+
     if (r != null && "Occupied".equalsIgnoreCase(r.getStatus())) {
+
       r.setStatus("In Maintenance");
 
       Thread t = new Thread(() -> {
         try {
+
           Thread.sleep(3000);
-          Platform.runLater(() -> reservations.remove(r));
+
+          ReservationDAO dao = new ReservationDAO();
+          dao.deleteReservation(r.getReservationNumber());
+          ReservationManager.refreshReservations();
+          ReservationManager.loadFromDB(dao.getAllReservations());
+          Platform.runLater(() -> {
+            reservations.remove(r);
+          });
+
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
       });
+
       t.setDaemon(true);
       t.start();
     }
@@ -54,9 +76,19 @@ public class ManagerViewModel {
 
   // CANCEL
   public void cancel(Reservation r) {
+
     if (r != null) {
-      r.setStatus("Available");
-      reservations.remove(r);
+
+      ReservationDAO dao = new ReservationDAO();
+
+      // delete from DB
+      dao.deleteReservation(r.getReservationNumber());
+
+      // reload reservations from DB
+      ReservationManager.refreshReservations();
+
+      // refresh table list
+      reservations.setAll(ReservationManager.getReservations());
     }
   }
 
