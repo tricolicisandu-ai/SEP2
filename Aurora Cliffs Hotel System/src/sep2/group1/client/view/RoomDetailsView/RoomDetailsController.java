@@ -62,6 +62,14 @@ public class RoomDetailsController {
     this.allRooms = viewModel.getAllRooms();
 
     refreshTable();
+
+    /*viewModel.getClient().addEventHandler(msg -> {
+
+      if (msg.equals("RESERVATION_CHANGED")) {
+
+        refreshTable();
+      }
+    });*/
   }
 
 

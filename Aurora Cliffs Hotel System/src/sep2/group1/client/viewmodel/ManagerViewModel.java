@@ -3,32 +3,45 @@ package sep2.group1.client.viewmodel;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import sep2.group1.server.model.Reservation;
-import sep2.group1.server.model.ReservationManager;
+import sep2.group1.client.Client;
 import sep2.group1.client.view.ViewHandler;
-import sep2.group1.server.persistence.ReservationDAO;
+import sep2.group1.server.model.Reservation;
+
+import java.io.IOException;
 
 public class ManagerViewModel {
 
   private ViewHandler viewHandler;
 
-  /*private ObservableList<Reservation> reservations;
-  private FilteredList<Reservation> filteredReservations;
+  private final Client client = Client.getInstance();
 
-  public ManagerViewModel(ViewHandler viewHandler) {
-    this.viewHandler = viewHandler;
-   this.reservations = ReservationManager.getReservations();
-    this.filteredReservations = new FilteredList<>(reservations, p -> true);
-  }*/
-  private ReservationDAO reservationDAO = new ReservationDAO();
   private ObservableList<Reservation> reservations;
   private FilteredList<Reservation> filteredReservations;
 
   public ManagerViewModel(ViewHandler viewHandler) {
+
     this.viewHandler = viewHandler;
 
-    this.reservations = reservationDAO.getAllReservations();
-    this.filteredReservations = new FilteredList<>(reservations, p -> true);
+    try {
+
+      client.connect();
+
+      this.reservations =
+          client.getReservations();
+
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    this.filteredReservations =
+        new FilteredList<>(reservations, p -> true);
+
+    Client.getInstance().addEventHandler(msg -> {
+      if (msg.equals("RESERVATION_CHANGED")) {
+        refreshReservations();
+      }
+    });
   }
 
   // TABLE DATA
@@ -36,10 +49,20 @@ public class ManagerViewModel {
     return filteredReservations;
   }
 
+  public void refreshReservations() {
+    try {
+      reservations.setAll(client.getReservations());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   // CHECK-IN
   public void checkIn(Reservation r) {
-    // Check-in allowed only after "Reserved" status
-    if (r != null && "Reserved".equalsIgnoreCase(r.getStatus())) {
+
+    if (r != null
+        && "Reserved".equalsIgnoreCase(r.getStatus())) {
+
       r.setStatus("Occupied");
     }
   }
@@ -47,24 +70,26 @@ public class ManagerViewModel {
   // CHECK-OUT
   public void checkOut(Reservation r) {
 
-    if (r != null && "Occupied".equalsIgnoreCase(r.getStatus())) {
+    if (r != null
+        && "Occupied".equalsIgnoreCase(r.getStatus())) {
 
       r.setStatus("In Maintenance");
 
       Thread t = new Thread(() -> {
+
         try {
 
           Thread.sleep(3000);
 
-          ReservationDAO dao = new ReservationDAO();
-          dao.deleteReservation(r.getReservationNumber());
-          ReservationManager.refreshReservations();
-          ReservationManager.loadFromDB(dao.getAllReservations());
+          client.deleteReservation(
+              r.getReservationNumber());
+
           Platform.runLater(() -> {
             reservations.remove(r);
           });
 
-        } catch (InterruptedException e) {
+        }
+        catch (Exception e) {
           e.printStackTrace();
         }
       });
@@ -79,40 +104,52 @@ public class ManagerViewModel {
 
     if (r != null) {
 
-      ReservationDAO dao = new ReservationDAO();
+      client.deleteReservation(
+          r.getReservationNumber());
 
-      // delete from DB
-      dao.deleteReservation(r.getReservationNumber());
+      reservations.remove(r);
 
-      // reload reservations from DB
-      ReservationManager.refreshReservations();
-
-      // refresh table list
-      reservations.setAll(ReservationManager.getReservations());
     }
   }
 
   // SEARCH LOGIC
-  public void search(String resNo, String roomNo, String email) {
+  public void search(String resNo,
+      String roomNo,
+      String email) {
 
     filteredReservations.setPredicate(r -> {
 
       if ((resNo == null || resNo.isEmpty()) &&
           (roomNo == null || roomNo.isEmpty()) &&
           (email == null || email.isEmpty())) {
+
         return true;
       }
 
-      boolean isResNo = resNo == null || resNo.isEmpty()
-          || String.valueOf(r.getReservationNumber()).contains(resNo);
+      boolean isResNo =
+          resNo == null
+              || resNo.isEmpty()
+              || String.valueOf(
+                  r.getReservationNumber())
+              .contains(resNo);
 
-      boolean isRoomNo = roomNo == null || roomNo.isEmpty()
-          || String.valueOf(r.getRoomNumber()).contains(roomNo);
+      boolean isRoomNo =
+          roomNo == null
+              || roomNo.isEmpty()
+              || String.valueOf(
+                  r.getRoomNumber())
+              .contains(roomNo);
 
-      boolean isEmail = email == null || email.isEmpty()
-          || r.getEmail().toLowerCase().contains(email.toLowerCase());
+      boolean isEmail =
+          email == null
+              || email.isEmpty()
+              || r.getEmail()
+              .toLowerCase()
+              .contains(email.toLowerCase());
 
-      return isResNo && isRoomNo && isEmail;
+      return isResNo
+          && isRoomNo
+          && isEmail;
     });
   }
 

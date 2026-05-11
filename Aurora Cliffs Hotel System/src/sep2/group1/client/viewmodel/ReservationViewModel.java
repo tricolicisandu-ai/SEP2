@@ -1,24 +1,37 @@
+
 package sep2.group1.client.viewmodel;
 
-import sep2.group1.server.model.*;
+import sep2.group1.client.Client;
+import sep2.group1.server.model.Room;
 import sep2.group1.client.view.ViewHandler;
-import sep2.group1.server.persistence.ReservationDAO;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
-public class ReservationViewModel
-{
-  public ReservationViewModel(ViewHandler viewHandler)
-  {
+public class ReservationViewModel {
+
+
+  private final Client client = Client.getInstance();
+  public ReservationViewModel(ViewHandler viewHandler) {
+
+    try {
+      client.connect();
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
-  public boolean isInputInvalid(String first, String last, String email)
-  {
-    return first.isEmpty() || last.isEmpty() || email.isEmpty();
+  public boolean isInputInvalid(String first,
+      String last,
+      String email) {
+
+    return first.isEmpty()
+        || last.isEmpty()
+        || email.isEmpty();
   }
 
-  public boolean isGdprAccepted(boolean accepted)
-  {
+  public boolean isGdprAccepted(boolean accepted) {
     return accepted;
   }
 
@@ -28,28 +41,18 @@ public class ReservationViewModel
       String email,
       LocalDate checkIn,
       LocalDate checkOut,
-      int guests)
-  {
-    Guest guest = new Guest(firstName, lastName, email);
+      int guests) {
 
-    // reserve room
-    room.reserve(guest);
-
-    //ReservationManager.addReservation(reservation);
-    ReservationDAO dao = new ReservationDAO();
-    int databaseId = dao.createReservation(new Reservation(
-        0,
+    client.reserveRoom(
         room.getRoomNumber(),
-        guest.getEmail(),
+        firstName,
+        lastName,
+        email,
         checkIn,
         checkOut,
-        "Reserved",
-        guests,
-        firstName,
-        lastName
-    ));
-    ReservationManager.refreshReservations();
+        guests
+    );
 
-    return databaseId;
+    return guests;
   }
 }

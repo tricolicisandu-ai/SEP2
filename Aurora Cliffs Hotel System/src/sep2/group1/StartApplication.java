@@ -2,57 +2,41 @@ package sep2.group1;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import sep2.group1.client.Client;
 import sep2.group1.client.view.ViewHandler;
 import sep2.group1.client.viewmodel.ViewModelFactory;
-import sep2.group1.server.model.ReservationManager;
-import sep2.group1.server.persistence.ReservationDAO;
 
-public class StartApplication extends Application
-{
- /* @Override
-  public void start(Stage primaryStage) {
-
-    ViewHandler viewHandler = new ViewHandler();
-    ViewModelFactory factory = new ViewModelFactory(viewHandler);
-
-    viewHandler.setFactory(factory);
-    viewHandler.start(primaryStage);
-    ReservationManager.loadFromDB(
-        new ReservationDAO().getAllReservations()
-    );
-  }*/
+public class StartApplication extends Application {
 
   @Override
   public void start(Stage primaryStage) {
 
+    // ---------------- CLIENT INIT ----------------
     try {
-      // TEST SERVER/DB PRIPOJENIA
-      new ReservationDAO().getAllReservations();
+      Client.getInstance().connect();
     } catch (Exception e) {
-
-      javafx.scene.control.Alert alert =
-          new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
-
-      alert.setTitle("Server unavailable");
-      alert.setHeaderText("Cannot connect to server");
-      alert.setContentText("Please start the server first.");
-
-      alert.showAndWait();
-
-      javafx.application.Platform.exit();
-      return;
+      e.printStackTrace();
     }
 
+    // ---------------- EVENT HANDLER ----------------
+    Client.getInstance().addEventHandler((String msg) -> {
+
+      if (msg.equals("RESERVATION_CHANGED")) {
+        System.out.println("Server update received");
+
+        // refresh
+      }
+    });
+
+    // ---------------- UI ----------------
     ViewHandler viewHandler = new ViewHandler();
     ViewModelFactory factory = new ViewModelFactory(viewHandler);
 
     viewHandler.setFactory(factory);
     viewHandler.start(primaryStage);
-
-    ReservationManager.loadFromDB(
-        new ReservationDAO().getAllReservations()
-    );
   }
 
-
+  public static void main(String[] args) {
+    launch(args);
+  }
 }

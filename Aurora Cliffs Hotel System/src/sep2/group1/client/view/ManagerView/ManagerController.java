@@ -2,6 +2,7 @@ package sep2.group1.client.view.ManagerView;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import sep2.group1.client.Client;
 import sep2.group1.server.model.Reservation;
 import sep2.group1.client.view.ViewHandler;
 import sep2.group1.client.viewmodel.ManagerViewModel;
@@ -25,6 +26,7 @@ public class ManagerController {
   @FXML private TextField emailTextField;
 
   private ManagerViewModel viewModel;
+  private boolean listenerAdded = false;
 
   @FXML
   public void initialize() {
@@ -76,6 +78,21 @@ public class ManagerController {
     reservationNumberTextField.textProperty().addListener((obs, old, newVal) -> onSearch());
     roomNumberTextField.textProperty().addListener((obs, old, newVal) -> onSearch());
     emailTextField.textProperty().addListener((obs, old, newVal) -> onSearch());
+
+      if (!listenerAdded) {
+        listenerAdded = true;
+
+      /*  Client.getInstance().addEventHandler((String msg) -> {
+
+          if (msg.equals("RESERVATION_CHANGED")) {
+
+            javafx.application.Platform.runLater(() -> {
+              viewModel.refreshReservations();
+              roomsTable.refresh();
+            });
+          }
+        });*/
+      }
   }
 
   // ---------------- BUTTONS ----------------

@@ -1,13 +1,16 @@
 package sep2.group1.client.viewmodel;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import sep2.group1.client.Client;
 import sep2.group1.server.model.Room;
-import sep2.group1.server.model.RoomManager;
+//import sep2.group1.server.model.RoomManager;
 import sep2.group1.server.model.AvailableState;
 import sep2.group1.client.view.ViewHandler;
-import sep2.group1.server.model.Reservation;
-import sep2.group1.server.model.ReservationManager;
+//import sep2.group1.server.model.Reservation;
+//import sep2.group1.server.model.ReservationManager;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class RoomDetailsViewModel {
@@ -16,9 +19,25 @@ public class RoomDetailsViewModel {
   private LocalDate checkOut;
   private int numberOfGuests;
   private ViewHandler viewHandler;
+  private final Client client = Client.getInstance();
 
   public RoomDetailsViewModel(ViewHandler viewHandler) {
     this.viewHandler = viewHandler;
+
+    try {
+      client.connect();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    Client.getInstance().addEventHandler(msg -> {
+      if (msg.equals("RESERVATION_CHANGED")) {
+        Platform.runLater(() -> {
+          System.out.println("Rooms refresh");
+          getAllRooms(); // alebo refresh UI
+        });
+      }
+    });
   }
 
   public void setReservationData(Room selectedRoom, LocalDate checkIn, LocalDate checkOut, int guests) {
@@ -29,63 +48,29 @@ public class RoomDetailsViewModel {
   }
 
   public ObservableList<Room> getAllRooms() {
-    return RoomManager.getRooms();
+
+    return client.getRooms();
+
   }
 
-  /*public ObservableList<Room> getFilteredRooms(Integer guests,
+  public ObservableList<Room> getFilteredRooms(
+      Integer guests,
       LocalDate checkIn,
       LocalDate checkOut) {
 
-    return RoomManager.getRooms().filtered(room -> {
+    ObservableList<Room> rooms =
+        client.getRooms();
 
-      if (guests != null && guests > room.getNumberOfBeds())
+    return rooms.filtered(room -> {
+
+      if (guests != null
+          && guests > room.getNumberOfBeds()) {
         return false;
-
-      if (!(room.getState() instanceof AvailableState))
-        return false;
-
-      if (checkIn != null && checkOut != null) {
-        if (room.getCheckInDate() != null && room.getCheckOutDate() != null) {
-          boolean overlap =
-              !checkOut.isBefore(room.getCheckInDate()) &&
-                  !checkIn.isAfter(room.getCheckOutDate());
-
-          if (overlap) return false;
-        }
       }
 
       return true;
     });
-  }*/
 
-  public ObservableList<Room> getFilteredRooms(Integer guests,
-      LocalDate checkIn,
-      LocalDate checkOut) {
-    System.out.println(ReservationManager.getReservations().size());
-    return RoomManager.getRooms().filtered(room -> {
-
-      if (guests != null && guests > room.getNumberOfBeds())
-        return false;
-
-      for (Reservation r : ReservationManager.getReservations()) {
-
-        if (r.getRoomNumber() == room.getRoomNumber()) {
-
-          if (checkIn == null || checkOut == null) {
-            return false;
-          }
-
-          boolean overlap =
-              !checkOut.isBefore(r.getCheckIn()) &&
-                  !checkIn.isAfter(r.getCheckOut());
-
-          if (overlap)
-            return false;
-        }
-      }
-
-      return true;
-    });
   }
 
   public Room getSelectedRoom() { return selectedRoom; }
@@ -95,5 +80,10 @@ public class RoomDetailsViewModel {
 
   public void openReservationView(String viewId) {
     viewHandler.openReservationView(viewId);
+  }
+
+  public Client getClient()
+  {
+    return client;
   }
 }

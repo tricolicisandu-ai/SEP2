@@ -23,9 +23,7 @@ public class RoomDAO {
             rs.getInt("room_number"),
             rs.getString("room_type"),
             rs.getInt("beds"),
-            rs.getDouble("price"),
-            rs.getInt("max_guests")
-        );
+            rs.getDouble("price"));
 
         rooms.add(room);
       }

@@ -19,7 +19,7 @@ public class Room {
   private RoomState state;
   private Guest currentGuest;
 
-  public Room(int roomNumber, String roomType, int numberOfBeds, double price, int numberOfGuest) {
+  public Room(int roomNumber, String roomType, int numberOfBeds, double price) {
     this.roomNumber = roomNumber;
     this.roomType = roomType;
     this.numberOfBeds = numberOfBeds;
@@ -101,4 +101,5 @@ public class Room {
   {
     this.checkOutDate = checkOutDate;
   }
+
 }
