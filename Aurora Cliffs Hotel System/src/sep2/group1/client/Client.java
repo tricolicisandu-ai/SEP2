@@ -11,6 +11,8 @@ import java.net.Socket;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 
 public class Client {
@@ -18,9 +20,11 @@ public class Client {
   private static Client instance;
 
   public static Client getInstance() {
+
     if (instance == null) {
       instance = new Client();
     }
+
     return instance;
   }
 
@@ -28,39 +32,51 @@ public class Client {
   private BufferedReader in;
   private PrintWriter out;
 
-  private final List<Consumer<String>> eventHandlers = new ArrayList<>();
+  private final List<Consumer<String>> eventHandlers =
+      new ArrayList<>();
 
-  // sync request/response
-  private final Object lock = new Object();
-  private String response;
-  private boolean hasResponse = false;
+  // SAFE MESSAGE QUEUE
+  private final BlockingQueue<String> responses =
+      new LinkedBlockingQueue<>();
 
   private Client() {}
 
-  // ---------------- CONNECT ----------------
+  // ==================================================
+  // CONNECT
+  // ==================================================
   public void connect() throws IOException {
 
-    if (socket != null && socket.isConnected()) return;
+    if (socket != null && socket.isConnected()) {
+      return;
+    }
 
     socket = new Socket("localhost", 1234);
 
     in = new BufferedReader(
         new InputStreamReader(socket.getInputStream()));
 
-    out = new PrintWriter(socket.getOutputStream(), true);
+    out = new PrintWriter(
+        socket.getOutputStream(),
+        true);
 
     startListener();
   }
 
-  // ---------------- EVENT HANDLERS ----------------
-  public void addEventHandler(Consumer<String> handler) {
+  // ==================================================
+  // EVENT HANDLERS
+  // ==================================================
+  public void addEventHandler(
+      Consumer<String> handler) {
+
     eventHandlers.add(handler);
   }
 
-  // ---------------- LISTENER THREAD ----------------
+  // ==================================================
+  // LISTENER THREAD
+  // ==================================================
   private void startListener() {
 
-    new Thread(() -> {
+    Thread listener = new Thread(() -> {
 
       try {
 
@@ -68,69 +84,84 @@ public class Client {
 
         while ((msg = in.readLine()) != null) {
 
+          // SERVER EVENT
           if (msg.equals("RESERVATION_CHANGED")) {
 
-            for (Consumer<String> h : eventHandlers) {
+            for (Consumer<String> handler :
+                eventHandlers) {
+
               String finalMsg = msg;
-              Platform.runLater(() -> h.accept(finalMsg));
-            }
 
-          } else {
-
-            synchronized (lock) {
-              response = msg;
-              hasResponse = true;
-              lock.notifyAll();
+              Platform.runLater(() ->
+                  handler.accept(finalMsg));
             }
+          }
+
+          // NORMAL RESPONSE
+          else {
+
+            responses.put(msg);
           }
         }
 
-      } catch (Exception e) {
+      }
+      catch (Exception e) {
         e.printStackTrace();
       }
 
-    }).start();
+    });
+
+    listener.setDaemon(true);
+    listener.start();
   }
 
-  // ---------------- WAIT RESPONSE ----------------
+  // ==================================================
+  // WAIT RESPONSE
+  // ==================================================
   private String waitResponse() {
 
-    synchronized (lock) {
+    try {
 
-      while (!hasResponse) {
-        try {
-          lock.wait();
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-      }
+      return responses.take();
 
-      hasResponse = false;
-      return response;
     }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return null;
   }
 
-  // ---------------- ROOMS ----------------
-  public ObservableList<Room> getRooms() {
-
-    out.println("GET_ROOMS");
+  // ==================================================
+  // GET ROOMS
+  // ==================================================
+  public synchronized ObservableList<Room>
+  getRooms() {
 
     ObservableList<Room> rooms =
         FXCollections.observableArrayList();
 
     try {
 
-      String line;
+      out.println("GET_ROOMS");
 
       while (true) {
 
-        line = waitResponse();
+        String line = waitResponse();
 
-        if (line.equals("END")) break;
+        if (line == null) {
+          break;
+        }
+
+        if (line.equals("END")) {
+          break;
+        }
 
         String[] p = line.split(",");
 
-        if (p.length < 4) continue;
+        if (p.length < 4) {
+          continue;
+        }
 
         rooms.add(new Room(
             Integer.parseInt(p[0]),
@@ -140,34 +171,44 @@ public class Client {
         ));
       }
 
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
 
     return rooms;
   }
 
-  // ---------------- RESERVATIONS ----------------
-  public ObservableList<Reservation> getReservations() {
-
-    out.println("GET_RESERVATIONS");
+  // ==================================================
+  // GET RESERVATIONS
+  // ==================================================
+  public synchronized ObservableList<Reservation>
+  getReservations() {
 
     ObservableList<Reservation> list =
         FXCollections.observableArrayList();
 
     try {
 
-      String line;
+      out.println("GET_RESERVATIONS");
 
       while (true) {
 
-        line = waitResponse();
+        String line = waitResponse();
 
-        if (line.equals("END")) break;
+        if (line == null) {
+          break;
+        }
+
+        if (line.equals("END")) {
+          break;
+        }
 
         String[] p = line.split(",");
 
-        if (p.length < 6) continue;
+        if (p.length < 6) {
+          continue;
+        }
 
         list.add(new Reservation(
             Integer.parseInt(p[0]),
@@ -182,15 +223,18 @@ public class Client {
         ));
       }
 
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
 
     return list;
   }
 
-  // ---------------- RESERVE ----------------
-  public String reserveRoom(
+  // ==================================================
+  // RESERVE
+  // ==================================================
+  public synchronized String reserveRoom(
       int roomNumber,
       String firstName,
       String lastName,
@@ -199,22 +243,44 @@ public class Client {
       LocalDate checkOut,
       int guests) {
 
-    out.println("RESERVE,"
-        + roomNumber + ","
-        + firstName + ","
-        + lastName + ","
-        + email + ","
-        + checkIn + ","
-        + checkOut + ","
-        + guests);
+    try {
 
-    return waitResponse(); // OK / NOT_AVAILABLE
+      out.println(
+          "RESERVE,"
+              + roomNumber + ","
+              + firstName + ","
+              + lastName + ","
+              + email + ","
+              + checkIn + ","
+              + checkOut + ","
+              + guests
+      );
+
+      return waitResponse();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return "ERROR";
   }
 
-  // ---------------- DELETE ----------------
-  public void deleteReservation(int id) {
+  // ==================================================
+  // DELETE
+  // ==================================================
+  public synchronized void deleteReservation(
+      int id) {
 
-    out.println("DELETE_RESERVATION," + id);
-    waitResponse(); // DELETED
+    try {
+
+      out.println(
+          "DELETE_RESERVATION," + id);
+
+      waitResponse();
+
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
