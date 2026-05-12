@@ -150,7 +150,7 @@ public class ClientHandler implements Runnable {
 
           out.println("OK");
 
-          Server.broadcast("RESERVATION_CHANGED");
+          Server.broadcastExcept("ROOM_RESERVED," + roomNumber, this);
         }
 
         // ==================================================

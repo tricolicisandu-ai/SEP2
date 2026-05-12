@@ -85,7 +85,7 @@ public class Client {
         while ((msg = in.readLine()) != null) {
 
           // SERVER EVENT
-          if (msg.equals("RESERVATION_CHANGED")) {
+          if (msg.equals("RESERVATION_CHANGED")  || msg.startsWith("ROOM_RESERVED")) {
 
             for (Consumer<String> handler :
                 eventHandlers) {

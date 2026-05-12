@@ -21,6 +21,18 @@ public class Server {
     }
   }
 
+  public static void broadcastExcept(
+      String msg,
+      ClientHandler excluded) {
+
+    for (ClientHandler client : clients) {
+
+      if (client != excluded) {
+        client.send(msg);
+      }
+    }
+  }
+
   public static void main(String[] args) {
 
     try {

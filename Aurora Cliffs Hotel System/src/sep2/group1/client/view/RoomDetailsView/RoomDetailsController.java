@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import sep2.group1.client.Client;
 import sep2.group1.server.model.ReservationManager;
 import sep2.group1.server.model.Room;
 import sep2.group1.client.view.ViewHandler;
@@ -30,6 +31,7 @@ public class RoomDetailsController {
   private ViewHandler viewHandler;
   private RoomDetailsViewModel viewModel;
   private ObservableList<Room> allRooms;
+  private boolean listenerAdded = false;
 
   @FXML
   public void initialize() {
@@ -70,6 +72,37 @@ public class RoomDetailsController {
         refreshTable();
       }
     });*/
+    if (!listenerAdded) {
+
+      listenerAdded = true;
+
+      Client.getInstance().addEventHandler(msg -> {
+
+        if (msg.startsWith("ROOM_RESERVED")) {
+
+          String[] p = msg.split(",");
+
+          int roomNumber =
+              Integer.parseInt(p[1]);
+
+          Alert alert =
+              new Alert(Alert.AlertType.INFORMATION);
+
+          alert.setTitle("Room Reserved");
+
+          alert.setHeaderText(null);
+
+          alert.setContentText(
+              "Room " + roomNumber +
+                  " was reserved by another guest."
+          );
+
+          alert.show();
+
+          refreshTable();
+        }
+      });
+    }
   }
 
 
