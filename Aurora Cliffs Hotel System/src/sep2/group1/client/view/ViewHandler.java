@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import sep2.group1.client.view.LoginView.LoginViewController;
+import sep2.group1.client.view.MaidLoginView.MaidLoginViewController;
+import sep2.group1.client.view.MaidView.MaidController;
 import sep2.group1.client.view.MainView.MainPageController;
 import sep2.group1.client.view.ManagerView.ManagerController;
 import sep2.group1.client.view.ReservationView.ReservationController;
@@ -70,6 +72,23 @@ public class ViewHandler
           root = loader.load();
           LoginViewController loginController = loader.getController();
           loginController.init(this, viewModelFactory.getLoginViewModel());
+          break;
+
+        case "maid":
+          loader.setLocation(getClass().getResource("MaidView/MaidView.fxml"));
+          root = loader.load();
+          MaidController maidController = loader.getController();
+          // Refresh rooms before initializing the maid view to ensure it has the latest data
+          //viewModelFactory.getMaidViewModel().refreshRooms();
+          maidController.init(this, viewModelFactory.getMaidViewModel());
+          break;
+
+        case "maidLogin":
+          loader.setLocation(
+              getClass().getResource("MaidLoginView/MaidLoginView.fxml"));
+          root = loader.load();
+          MaidLoginViewController maidLogin = loader.getController();
+          maidLogin.init(this, viewModelFactory.getMaidLoginViewModel());
           break;
 
         default:

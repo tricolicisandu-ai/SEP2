@@ -12,6 +12,8 @@ public class ViewModelFactory {
   private RoomDetailsViewModel roomDetailsViewModel;
   private ManagerViewModel managerViewModel;
   private LoginViewModel loginViewModel;
+  private MaidLoginViewModel maidLoginViewModel;
+  private MaidViewModel maidViewModel;
 
   public ViewModelFactory(ViewHandler viewHandler) {
     this.viewHandler = viewHandler;
@@ -51,4 +53,23 @@ public class ViewModelFactory {
     }
     return reservationViewModel;
   }
+
+  public MaidLoginViewModel getMaidLoginViewModel()
+  {
+    if (maidLoginViewModel == null)
+    {
+      maidLoginViewModel = new MaidLoginViewModel(viewHandler);
+    }
+    return maidLoginViewModel;
+  }
+
+  public MaidViewModel getMaidViewModel()
+  {
+    if (maidViewModel == null)
+    {
+      maidViewModel = new MaidViewModel(viewHandler);
+    }
+    return maidViewModel;
+  }
+
 }

@@ -283,4 +283,17 @@ public class Client {
       e.printStackTrace();
     }
   }
+
+  public void updateReservationStatus(
+      int reservationNumber,
+      String status) {
+
+    out.println(
+        "UPDATE_STATUS,"
+            + reservationNumber + ","
+            + status
+    );
+
+    waitResponse();
+  }
 }

@@ -24,17 +24,25 @@
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
                 <Button fx:id="managerButton" mnemonicParsing="false" onAction="#onManager" prefHeight="40.0" prefWidth="200.0" text="Manager">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button fx:id="maidButton" mnemonicParsing="false" onAction="#onMaid" prefHeight="40.0" prefWidth="200.0" text="Maid">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
                 </Button>
             </children>
         </VBox>

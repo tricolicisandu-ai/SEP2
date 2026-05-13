@@ -178,6 +178,34 @@ public class ClientHandler implements Runnable {
         }
 
         // ==================================================
+        // UPDATE STATUS
+        // ==================================================
+        else if (request.startsWith("UPDATE_STATUS")) {
+
+          String[] p = request.split(",");
+
+          int reservationNumber =
+              Integer.parseInt(p[1]);
+
+          String status = p[2];
+
+          ReservationDAO dao =
+              new ReservationDAO();
+
+          dao.updateStatus(
+              reservationNumber,
+              status
+          );
+
+          ReservationManager.refreshReservations();
+
+          out.println("UPDATED");
+
+          Server.broadcast(
+              "RESERVATION_CHANGED");
+        }
+
+        // ==================================================
         // DELETE
         // ==================================================
         else if (

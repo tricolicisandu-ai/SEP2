@@ -5,10 +5,7 @@ import javafx.collections.ObservableList;
 import sep2.group1.DatabaseConnection;
 import sep2.group1.server.model.Reservation;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class ReservationDAO {
 
@@ -78,6 +75,33 @@ public class ReservationDAO {
     }
 
     return list;
+  }
+
+  public void updateStatus(
+      int reservationNumber,
+      String status) {
+
+    try (
+        Connection connection =
+            DatabaseConnection.getConnection();
+
+        PreparedStatement statement =
+            connection.prepareStatement(
+                "UPDATE reservations " +
+                    "SET status=? " +
+                    "WHERE reservation_number=?")
+    ) {
+
+      statement.setString(1, status);
+
+      statement.setInt(2, reservationNumber);
+
+      statement.executeUpdate();
+
+    }
+    catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public void deleteReservation(int reservationId) {

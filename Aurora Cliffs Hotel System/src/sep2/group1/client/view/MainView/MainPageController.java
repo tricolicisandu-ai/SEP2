@@ -29,4 +29,9 @@ public class MainPageController {
   private void onManager() {
     viewHandler.openView("login");
   }
+
+  @FXML
+  private void onMaid() {
+    viewHandler.openView("maidLogin");
+  }
 }

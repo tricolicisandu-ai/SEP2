@@ -75,27 +75,12 @@ public class ManagerViewModel {
 
       r.setStatus("In Maintenance");
 
-      Thread t = new Thread(() -> {
+      client.updateReservationStatus(
+          r.getReservationNumber(),
+          "In Maintenance"
+      );
 
-        try {
-
-          Thread.sleep(3000);
-
-          client.deleteReservation(
-              r.getReservationNumber());
-
-          Platform.runLater(() -> {
-            reservations.remove(r);
-          });
-
-        }
-        catch (Exception e) {
-          e.printStackTrace();
-        }
-      });
-
-      t.setDaemon(true);
-      t.start();
+      refreshReservations();
     }
   }
 
