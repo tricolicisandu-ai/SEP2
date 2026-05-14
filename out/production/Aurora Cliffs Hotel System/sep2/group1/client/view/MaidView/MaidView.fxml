@@ -44,11 +44,9 @@
 
         <TableView fx:id="roomsTable" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="colRoomNumber" prefWidth="203.5" text="Room Number" />
-                <TableColumn fx:id="colRoomType" prefWidth="247.5" text="Room Type" />
-                <TableColumn fx:id="colNumberOfBeds" prefWidth="157.5" text="Number of Beds" />
-                <TableColumn fx:id="colEmail" text="Email"/>
-                <TableColumn fx:id="colStatus" prefWidth="167.5" text="Status" />
+                <TableColumn fx:id="colRoomNumber" prefWidth="100" text="Room Number" />
+                <TableColumn fx:id="colEmail" prefWidth="100" text="Email"/>
+                <TableColumn fx:id="colStatus" prefWidth="100" text="Status" />
             </columns>
             <VBox.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" />
