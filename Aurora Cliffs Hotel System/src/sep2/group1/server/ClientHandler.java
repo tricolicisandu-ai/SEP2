@@ -43,10 +43,16 @@ public class ClientHandler implements Runnable {
 
       while ((request = in.readLine()) != null) {
 
-        // ==================================================
         // GET ROOMS
-        // ==================================================
-        if (request.equals("GET_ROOMS")) {
+        if (request.startsWith("GET_ROOMS")) {
+
+          String[] p = request.split(",");
+
+          LocalDate checkIn =
+              LocalDate.parse(p[1]);
+
+          LocalDate checkOut =
+              LocalDate.parse(p[2]);
 
           for (Room room : RoomManager.getRooms()) {
 
@@ -58,12 +64,18 @@ public class ClientHandler implements Runnable {
               if (r.getRoomNumber()
                   == room.getRoomNumber()) {
 
-                available = false;
-                break;
+                boolean overlap =
+                    checkIn.isBefore(r.getCheckOut())
+                        &&
+                        checkOut.isAfter(r.getCheckIn());
+
+                if (overlap) {
+                  available = false;
+                  break;
+                }
               }
             }
 
-            // SEND ONLY FREE ROOMS
             if (available) {
 
               out.println(
@@ -78,9 +90,7 @@ public class ClientHandler implements Runnable {
           out.println("END");
         }
 
-        // ==================================================
         // RESERVE
-        // ==================================================
         else if (request.startsWith("RESERVE")) {
 
           String[] p = request.split(",");
@@ -153,9 +163,7 @@ public class ClientHandler implements Runnable {
           Server.broadcastExcept("ROOM_RESERVED," + roomNumber, this);
         }
 
-        // ==================================================
         // GET RESERVATIONS
-        // ==================================================
         else if (request.equals("GET_RESERVATIONS")) {
 
           ReservationDAO dao =
@@ -177,9 +185,7 @@ public class ClientHandler implements Runnable {
           out.println("END");
         }
 
-        // ==================================================
         // UPDATE STATUS
-        // ==================================================
         else if (request.startsWith("UPDATE_STATUS")) {
 
           String[] p = request.split(",");
@@ -204,10 +210,7 @@ public class ClientHandler implements Runnable {
           Server.broadcast(
               "RESERVATION_CHANGED");
         }
-
-        // ==================================================
         // DELETE
-        // ==================================================
         else if (
             request.startsWith(
                 "DELETE_RESERVATION")) {

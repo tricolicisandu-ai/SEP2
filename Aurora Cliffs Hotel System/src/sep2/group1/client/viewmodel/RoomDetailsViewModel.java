@@ -34,7 +34,7 @@ public class RoomDetailsViewModel {
       if (msg.equals("RESERVATION_CHANGED")) {
         Platform.runLater(() -> {
           System.out.println("Rooms refresh");
-          getAllRooms(); // alebo refresh UI
+          getAllRooms();
         });
       }
     });
@@ -49,8 +49,10 @@ public class RoomDetailsViewModel {
 
   public ObservableList<Room> getAllRooms() {
 
-    return client.getRooms();
-
+    return client.getRooms(
+        LocalDate.now(),
+        LocalDate.now().plusYears(1)
+    );
   }
 
   public ObservableList<Room> getFilteredRooms(
@@ -58,8 +60,12 @@ public class RoomDetailsViewModel {
       LocalDate checkIn,
       LocalDate checkOut) {
 
+    if (checkIn == null || checkOut == null) {
+      return javafx.collections.FXCollections.observableArrayList();
+    }
+
     ObservableList<Room> rooms =
-        client.getRooms();
+        client.getRooms(checkIn, checkOut);
 
     return rooms.filtered(room -> {
 
@@ -70,7 +76,6 @@ public class RoomDetailsViewModel {
 
       return true;
     });
-
   }
 
   public Room getSelectedRoom() { return selectedRoom; }

@@ -63,7 +63,7 @@ public class RoomDetailsController {
     this.viewModel = roomDetailsViewModel;
     this.allRooms = viewModel.getAllRooms();
 
-    refreshTable();
+   // refreshTable();
 
     /*viewModel.getClient().addEventHandler(msg -> {
 

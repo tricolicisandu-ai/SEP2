@@ -41,9 +41,7 @@ public class Client {
 
   private Client() {}
 
-  // ==================================================
   // CONNECT
-  // ==================================================
   public void connect() throws IOException {
 
     if (socket != null && socket.isConnected()) {
@@ -61,19 +59,14 @@ public class Client {
 
     startListener();
   }
-
-  // ==================================================
   // EVENT HANDLERS
-  // ==================================================
   public void addEventHandler(
       Consumer<String> handler) {
 
     eventHandlers.add(handler);
   }
 
-  // ==================================================
   // LISTENER THREAD
-  // ==================================================
   private void startListener() {
 
     Thread listener = new Thread(() -> {
@@ -115,9 +108,9 @@ public class Client {
     listener.start();
   }
 
-  // ==================================================
+
   // WAIT RESPONSE
-  // ==================================================
+
   private String waitResponse() {
 
     try {
@@ -131,37 +124,31 @@ public class Client {
 
     return null;
   }
-
-  // ==================================================
   // GET ROOMS
-  // ==================================================
-  public synchronized ObservableList<Room>
-  getRooms() {
+  public synchronized ObservableList<Room> getRooms(
+      LocalDate checkIn,
+      LocalDate checkOut) {
+
+    out.println(
+        "GET_ROOMS,"
+            + checkIn + ","
+            + checkOut
+    );
 
     ObservableList<Room> rooms =
         FXCollections.observableArrayList();
 
     try {
 
-      out.println("GET_ROOMS");
+      String line;
 
       while (true) {
 
-        String line = waitResponse();
+        line = waitResponse();
 
-        if (line == null) {
-          break;
-        }
-
-        if (line.equals("END")) {
-          break;
-        }
+        if (line.equals("END")) break;
 
         String[] p = line.split(",");
-
-        if (p.length < 4) {
-          continue;
-        }
 
         rooms.add(new Room(
             Integer.parseInt(p[0]),
@@ -171,17 +158,13 @@ public class Client {
         ));
       }
 
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
 
     return rooms;
   }
-
-  // ==================================================
   // GET RESERVATIONS
-  // ==================================================
   public synchronized ObservableList<Reservation>
   getReservations() {
 
@@ -231,9 +214,7 @@ public class Client {
     return list;
   }
 
-  // ==================================================
   // RESERVE
-  // ==================================================
   public synchronized String reserveRoom(
       int roomNumber,
       String firstName,
@@ -264,10 +245,7 @@ public class Client {
 
     return "ERROR";
   }
-
-  // ==================================================
   // DELETE
-  // ==================================================
   public synchronized void deleteReservation(
       int id) {
 
